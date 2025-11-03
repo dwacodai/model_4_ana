@@ -4596,7 +4596,7 @@ int main() {
                 Pb_L,  Th_L,    Ths_L, Thf_L, Rs_L,  Nb_L };
             csv1.print_data(analytical_data);
             cout << endl;
-            printf("%f\n", sum);
+            printf("%f\n", sum); // 正常要是1.0
         }
         pointer++;
     }
