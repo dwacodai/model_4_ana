@@ -192,7 +192,8 @@ void Initialization(int pointer, int aa) {
 
                                 if (k == MAX_K && i + j == NM + 1) continue;
                                 else if ((yH + yL) == 0 && !(k == 0 && i == 0 && j == 0)) continue;
-                                else if ((xH + xL) >= B && (xH + xL) <= Q_MAX && (yH + yL) == 0 && k == 0 && i == 0 && j == 0) continue;
+                                else if ((xH) >= B && (xH) <= Q_MAX && (yH + yL) == 0 && k == 0 && i == 0 && j == 0) continue;
+                                else if ((xL) >= B && (xL) <= Q_MAX && (yH + yL) == 0 && k == 0 && i == 0 && j == 0) continue;
                                 else if ((xH + xL) > Q_MAX) continue;
                                 else if (yH != 0 && yL != 0) continue;
 
@@ -222,7 +223,11 @@ void Initialization(int pointer, int aa) {
                                     old_pi[xH][xL][yH][yL][k][i][j] = 0.0;
                                     pi[xH][xL][yH][yL][k][i][j] = 0.0;
                                 }
-                                else if ((xH + xL) >= B && (xH + xL) <= Q_MAX && (yH + yL) == 0 && k == 0 && i == 0 && j == 0) {
+                                else if ((xH) >= B && (xH) <= Q_MAX && (yH + yL) == 0 && k == 0 && i == 0 && j == 0) {
+                                    old_pi[xH][xL][yH][yL][k][i][j] = 0.0;
+                                    pi[xH][xL][yH][yL][k][i][j] = 0.0;
+                                }
+                                else if ((xL) >= B && (xL) <= Q_MAX && (yH + yL) == 0 && k == 0 && i == 0 && j == 0) {
                                     old_pi[xH][xL][yH][yL][k][i][j] = 0.0;
                                     pi[xH][xL][yH][yL][k][i][j] = 0.0;
                                 }
@@ -309,7 +314,8 @@ void Iteration() {
 
                                 if (k == MAX_K && i + j == NM + 1) continue;
                                 else if ((yH + yL) == 0 && !(k == 0 && i == 0 && j == 0)) continue;
-                                else if ((xH + xL) >= B && (xH + xL) <= Q_MAX && (yH + yL) == 0 && k == 0 && i == 0 && j == 0) continue;
+                                else if ((xH) >= B && (xH) <= Q_MAX && (yH + yL) == 0 && k == 0 && i == 0 && j == 0) continue;
+                                else if ((xL) >= B && (xL) <= Q_MAX && (yH + yL) == 0 && k == 0 && i == 0 && j == 0) continue;
                                 else if ((xH + xL) > Q_MAX) continue;
                                 else if (yH != 0 && yL != 0) continue;
 
