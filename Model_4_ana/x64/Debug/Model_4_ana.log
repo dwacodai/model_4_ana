@@ -21,142 +21,182 @@ C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(255,47): warning C4244: '=':
 C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(256,51): warning C4244: '=': 將 'double' 轉換為 'int'，由於類型不同，可能導致資料遺失
 C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(303,47): warning C4244: '=': 將 'double' 轉換為 'int'，由於類型不同，可能導致資料遺失
 C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(304,51): warning C4244: '=': 將 'double' 轉換為 'int'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(322,74): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(322,80): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(328,74): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(328,97): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(334,77): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(334,80): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(340,77): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(340,97): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(357,75): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(357,81): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(363,75): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(363,100): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(369,78): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(369,81): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(375,78): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(375,100): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(502,75): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(502,81): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(508,75): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(508,100): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(514,78): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(514,81): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(520,78): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(520,100): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(645,70): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(645,76): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(651,70): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(651,93): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(657,73): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(657,76): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(663,73): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(663,93): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(680,80): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(680,86): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(686,80): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(686,105): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(692,83): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(692,86): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(698,83): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(698,105): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(845,80): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(845,86): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(851,80): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(851,105): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(857,83): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(857,86): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(863,83): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(863,105): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(1557,70): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(1557,76): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(1563,70): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(1563,93): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(1569,73): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(1569,76): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(1575,73): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(1575,93): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(1591,75): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(1591,81): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(1597,75): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(1597,100): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(1603,78): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(1603,81): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(1609,78): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(1609,100): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(1756,80): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(1756,86): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(1762,80): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(1762,105): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(1768,83): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(1768,86): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(1774,83): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(1774,105): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(1919,70): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(1919,76): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(1925,70): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(1925,93): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(1931,73): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(1931,76): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(1937,73): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(1937,93): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(1955,84): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(1955,90): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(1961,84): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(1961,109): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(1967,87): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(1967,90): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(1973,87): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(1973,109): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(2299,84): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(2299,90): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(2305,84): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(2305,109): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(2311,87): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(2311,90): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(2317,87): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(2317,109): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(4139,47): warning C4244: '=': 將 'double' 轉換為 'int'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(4140,51): warning C4244: '=': 將 'double' 轉換為 'int'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(4158,47): warning C4244: '=': 將 'double' 轉換為 'int'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(4159,51): warning C4244: '=': 將 'double' 轉換為 'int'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(4175,47): warning C4244: '=': 將 'double' 轉換為 'int'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(4176,51): warning C4244: '=': 將 'double' 轉換為 'int'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(4194,47): warning C4244: '=': 將 'double' 轉換為 'int'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(4195,51): warning C4244: '=': 將 'double' 轉換為 'int'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(4221,47): warning C4244: '=': 將 'double' 轉換為 'int'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(4222,51): warning C4244: '=': 將 'double' 轉換為 'int'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(4239,47): warning C4244: '=': 將 'double' 轉換為 'int'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(4240,51): warning C4244: '=': 將 'double' 轉換為 'int'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(4257,47): warning C4244: '=': 將 'double' 轉換為 'int'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(4258,51): warning C4244: '=': 將 'double' 轉換為 'int'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(4280,48): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(4292,51): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(4306,48): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(4319,51): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(4343,44): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(4355,47): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(4369,44): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(4382,47): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(4393,21): warning C4244: '正在初始化': 將 'double' 轉換為 'int'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(4400,45): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(4406,21): warning C4244: '正在初始化': 將 'double' 轉換為 'int'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(4410,48): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(4425,45): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(4425,51): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(4435,48): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(4435,51): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(4448,45): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(4448,51): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(4459,48): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(4459,51): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(4474,45): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(4474,64): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(4484,48): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(4484,64): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(4496,45): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(4496,64): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(4507,48): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(4507,64): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(324,82): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(324,88): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(330,82): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(330,105): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(336,85): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(336,88): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(342,85): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(342,105): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(359,86): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(359,97): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(359,103): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(365,86): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(365,97): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(365,122): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(371,86): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(371,100): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(371,103): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(377,86): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(377,100): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(377,122): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(384,102): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(384,120): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(507,82): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(507,91): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(507,97): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(513,82): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(513,91): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(513,116): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(519,82): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(519,94): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(519,97): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(525,82): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(525,94): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(525,116): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(532,98): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(532,116): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(655,82): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(655,88): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(661,82): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(661,105): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(667,85): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(667,88): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(673,85): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(673,105): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(691,86): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(691,91): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(691,97): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(697,86): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(697,91): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(697,116): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(703,86): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(703,94): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(703,97): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(709,86): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(709,94): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(709,116): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(859,82): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(859,91): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(859,97): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(865,82): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(865,91): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(865,116): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(871,82): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(871,94): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(871,97): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(877,82): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(877,94): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(877,116): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(884,98): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(884,116): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(1593,82): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(1593,88): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(1599,82): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(1599,105): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(1605,85): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(1605,88): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(1611,85): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(1611,105): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(1629,86): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(1629,91): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(1629,97): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(1635,86): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(1635,91): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(1635,116): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(1641,86): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(1641,94): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(1641,97): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(1647,86): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(1647,94): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(1647,116): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(1655,102): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(1655,120): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(1797,82): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(1797,91): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(1797,97): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(1803,82): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(1803,91): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(1803,116): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(1809,82): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(1809,94): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(1809,97): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(1815,82): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(1815,94): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(1815,116): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(1965,82): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(1965,88): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(1971,82): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(1971,105): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(1977,85): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(1977,88): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(1983,85): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(1983,105): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(2003,90): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(2003,95): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(2003,101): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(2009,90): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(2009,95): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(2009,120): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(2015,90): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(2015,98): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(2015,101): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(2021,90): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(2021,98): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(2021,120): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(2353,86): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(2353,95): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(2353,101): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(2359,86): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(2359,95): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(2359,120): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(2365,86): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(2365,98): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(2365,101): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(2371,86): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(2371,98): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(2371,120): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(4573,47): warning C4244: '=': 將 'double' 轉換為 'int'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(4574,51): warning C4244: '=': 將 'double' 轉換為 'int'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(4592,47): warning C4244: '=': 將 'double' 轉換為 'int'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(4593,51): warning C4244: '=': 將 'double' 轉換為 'int'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(4609,47): warning C4244: '=': 將 'double' 轉換為 'int'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(4610,51): warning C4244: '=': 將 'double' 轉換為 'int'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(4628,47): warning C4244: '=': 將 'double' 轉換為 'int'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(4629,51): warning C4244: '=': 將 'double' 轉換為 'int'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(4655,47): warning C4244: '=': 將 'double' 轉換為 'int'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(4656,51): warning C4244: '=': 將 'double' 轉換為 'int'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(4673,47): warning C4244: '=': 將 'double' 轉換為 'int'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(4674,51): warning C4244: '=': 將 'double' 轉換為 'int'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(4691,47): warning C4244: '=': 將 'double' 轉換為 'int'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(4692,51): warning C4244: '=': 將 'double' 轉換為 'int'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(4714,48): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(4726,51): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(4740,48): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(4753,51): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(4777,44): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(4789,47): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(4803,44): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(4816,47): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(4827,21): warning C4244: '正在初始化': 將 'double' 轉換為 'int'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(4834,45): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(4840,21): warning C4244: '正在初始化': 將 'double' 轉換為 'int'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(4844,48): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(4859,45): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(4859,51): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(4869,48): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(4869,51): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(4882,45): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(4882,51): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(4893,48): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(4893,51): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(4908,45): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(4908,64): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(4918,48): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(4918,64): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(4930,45): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(4930,64): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(4941,48): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
+C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(4941,64): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
   Model_4_ana.vcxproj -> C:\Dwacodai\Model_4_ana\x64\Debug\Model_4_ana.exe
