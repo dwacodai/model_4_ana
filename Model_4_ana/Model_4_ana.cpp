@@ -271,7 +271,7 @@ void Initialization(int pointer, int aa) {
             }
         }
     }
-    printf("%f\n", sum2);
+    printf("sum2 = %f\n", sum2);
 
 
     // Normalization
@@ -362,25 +362,25 @@ void Iteration() {
                                                     double sum_musH_2L = 0.0;
                                                     for (int i21L = 0; i21L <= NM; i21L++) {
                                                         for (int j21L = 0; j21L <= NM - i21L; j21L++) {
-                                                            sum_musH_2L += pi[xH][xL + (B - 1)][B][0][MAX_K][i21L][j21L];
+                                                            sum_musH_2L += pi[xH][xL + B][B][0][MAX_K][i21L][j21L];
                                                         }
                                                     }
                                                     double sum_mufH_2L = 0.0;
                                                     for (int k21L = 0; k21L <= MAX_K - 1; k21L++) {
                                                         for (int i22L = 0; i22L <= NM + 1; i22L++) {
-                                                            sum_mufH_2L += pi[xH][xL + (B - 1)][B][0][k21L][i22L][NM + 1 - i22L];
+                                                            sum_mufH_2L += pi[xH][xL + B][B][0][k21L][i22L][NM + 1 - i22L];
                                                         }
                                                     }
                                                     double sum_musL_2L = 0.0;
                                                     for (int i23L = 0; i23L <= NM; i23L++) {
                                                         for (int j22L = 0; j22L <= NM - i23L; j22L++) {
-                                                            sum_musL_2L += pi[xH][xL + (B - 1)][0][B][MAX_K][i23L][j22L];
+                                                            sum_musL_2L += pi[xH][xL + B][0][B][MAX_K][i23L][j22L];
                                                         }
                                                     }
                                                     double sum_mufL_2L = 0.0;
                                                     for (int k22L = 0; k22L <= MAX_K - 1; k22L++) {
                                                         for (int i24L = 0; i24L <= NM + 1; i24L++) {
-                                                            sum_mufL_2L += pi[xH][xL + (B - 1)][0][B][k22L][i24L][NM + 1 - i24L];
+                                                            sum_mufL_2L += pi[xH][xL + B][0][B][k22L][i24L][NM + 1 - i24L];
                                                         }
                                                     }
                                                     pi[xH][xL][yH][yL][k][i][j] = ( musH * sum_musH_2L +
