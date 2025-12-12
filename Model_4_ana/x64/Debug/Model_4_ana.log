@@ -17,8 +17,6 @@ C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(183,47): warning C4244: '=':
 C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(184,51): warning C4244: '=': 將 'double' 轉換為 'int'，由於類型不同，可能導致資料遺失
 C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(211,47): warning C4244: '=': 將 'double' 轉換為 'int'，由於類型不同，可能導致資料遺失
 C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(212,51): warning C4244: '=': 將 'double' 轉換為 'int'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(260,47): warning C4244: '=': 將 'double' 轉換為 'int'，由於類型不同，可能導致資料遺失
-C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(261,51): warning C4244: '=': 將 'double' 轉換為 'int'，由於類型不同，可能導致資料遺失
 C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(308,47): warning C4244: '=': 將 'double' 轉換為 'int'，由於類型不同，可能導致資料遺失
 C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(309,51): warning C4244: '=': 將 'double' 轉換為 'int'，由於類型不同，可能導致資料遺失
 C:\Dwacodai\Model_4_ana\Model_4_ana\Model_4_ana.cpp(330,82): warning C4244: '引數': 將 'double' 轉換為 'const unsigned __int64'，由於類型不同，可能導致資料遺失
