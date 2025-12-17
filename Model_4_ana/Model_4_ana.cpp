@@ -194,8 +194,10 @@ void Initialization(int pointer, int aa) {
                                 if (k == MAX_K && i + j == NM + 1) continue;
                                 else if ((yH + yL) == 0 && !(k == 0 && i == 0 && j == 0)) continue;
 
-                                else if ((xH) >= B && (xH) <= Q_MAX && (yH + yL) == 0 && k == 0 && i == 0 && j == 0) continue;
-                                else if ((xH) == 0 && (xL >= B && xL <= Q_MAX) && (yH + yL) == 0 && k == 0 && i == 0 && j == 0) continue;
+                                //else if ((xH) >= B && (xH) <= Q_MAX && (yH + yL) == 0 && k == 0 && i == 0 && j == 0) continue;
+                                //else if ((xH) == 0 && (xL >= B && xL <= Q_MAX) && (yH + yL) == 0 && k == 0 && i == 0 && j == 0) continue;
+                                else if ((xH) >= B && (xH) <= Q_MAX && (yH + yL) == 0) continue;
+                                else if ((xH) == 0 && (xL >= B && xL <= Q_MAX) && (yH + yL) == 0) continue;
 
                                 else if ((xH + xL) > Q_MAX) continue;
                                 else if (yH != 0 && yL != 0) continue;
@@ -206,15 +208,9 @@ void Initialization(int pointer, int aa) {
                                 else if ((xH >= B && xH <= Q_MAX) && (xL >= 0 && xL <= B - 1) && (yH >= 1 && yH <= B - 1)) continue;
 
                                 // 紫色分類
-                                else if ((xH) == 0 && (xL >= B && xL <= Q_MAX - 1) && (yH >= 1 && yH <= B - 1) && yL == 0) {
-                                    if (xL + yH < Q_MAX) continue;
-                                }
-                                else if ((xH >= 1 && xH <= B - 1) && (xL >= B && xL <= Q_MAX - 1) && (yH == 0) && (yL == 0)) {
-                                    if (xH + xL >= Q_MAX) continue;
-                                }
-                                else if ((xH >= 1 && xH <= B - 1) && (xL >= B && xL <= Q_MAX - 1) && (yH >= 1 && yH <= B - 1) && yL == 0) {
-                                    if (xL + yH < Q_MAX) continue;
-                                }
+                                else if ((xH) == 0 && (xL >= B && xL <= Q_MAX - 1) && (yH >= 1 && yH <= B - 1) && (yL == 0) && (xL + yH < Q_MAX)) continue;
+                                else if ((xH >= 1 && xH <= B - 1) && (xL >= B && xL <= Q_MAX - 1) && (yH == 0) && (yL == 0) && (xH + xL >= Q_MAX)) continue;
+                                else if ((xH >= 1 && xH <= B - 1) && (xL >= B && xL <= Q_MAX - 1) && (yH >= 1 && yH <= B - 1) && (yL == 0) && (xL + yH < Q_MAX)) continue;
 
 
                                 else valid_state_count++;
@@ -243,11 +239,11 @@ void Initialization(int pointer, int aa) {
                                     old_pi[xH][xL][yH][yL][k][i][j] = 0.0;
                                     pi[xH][xL][yH][yL][k][i][j] = 0.0;
                                 }
-                                else if ((xH) >= B && (xH) <= Q_MAX && (yH + yL) == 0 && k == 0 && i == 0 && j == 0) {
+                                else if ((xH) >= B && (xH) <= Q_MAX && (yH + yL) == 0) {
                                     old_pi[xH][xL][yH][yL][k][i][j] = 0.0;
                                     pi[xH][xL][yH][yL][k][i][j] = 0.0;
                                 }
-                                else if ((xH) == 0 && (xL >= B && xL <= Q_MAX) && (yH + yL) == 0 && k == 0 && i == 0 && j == 0) {
+                                else if ((xH) == 0 && (xL >= B && xL <= Q_MAX) && (yH + yL) == 0) {
                                     old_pi[xH][xL][yH][yL][k][i][j] = 0.0;
                                     pi[xH][xL][yH][yL][k][i][j] = 0.0;
                                 }
@@ -274,23 +270,17 @@ void Initialization(int pointer, int aa) {
                                 }
 
                                 // 紫色分類
-                                else if ((xH) == 0 && (xL >= B && xL <= Q_MAX - 1) && (yH >= 1 && yH <= B - 1) && yL == 0) {
-                                    if (xL + yH < Q_MAX) {
-                                        old_pi[xH][xL][yH][yL][k][i][j] = 0.0;
-                                        pi[xH][xL][yH][yL][k][i][j] = 0.0;
-                                    }
+                                else if ((xH) == 0 && (xL >= B && xL <= Q_MAX - 1) && (yH >= 1 && yH <= B - 1) && (yL == 0) && (xL + yH < Q_MAX)) {
+                                    old_pi[xH][xL][yH][yL][k][i][j] = 0.0;
+                                    pi[xH][xL][yH][yL][k][i][j] = 0.0;
                                 }
-                                else if ((xH >= 1 && xH <= B - 1) && (xL >= B && xL <= Q_MAX - 1) && (yH == 0) && (yL == 0)) {
-                                    if (xH + xL >= Q_MAX) {
-                                        old_pi[xH][xL][yH][yL][k][i][j] = 0.0;
-                                        pi[xH][xL][yH][yL][k][i][j] = 0.0;
-                                    }
+                                else if ((xH >= 1 && xH <= B - 1) && (xL >= B && xL <= Q_MAX - 1) && (yH == 0) && (yL == 0) && (xH + xL >= Q_MAX)) {
+                                    old_pi[xH][xL][yH][yL][k][i][j] = 0.0;
+                                    pi[xH][xL][yH][yL][k][i][j] = 0.0;
                                 }
-                                else if ((xH >= 1 && xH <= B - 1) && (xL >= B && xL <= Q_MAX - 1) && (yH >= 1 && yH <= B - 1) && yL == 0) {
-                                    if (xL + yH < Q_MAX) {
-                                        old_pi[xH][xL][yH][yL][k][i][j] = 0.0;
-                                        pi[xH][xL][yH][yL][k][i][j] = 0.0;
-                                    }
+                                else if ((xH >= 1 && xH <= B - 1) && (xL >= B && xL <= Q_MAX - 1) && (yH >= 1 && yH <= B - 1) && (yL == 0) && (xL + yH < Q_MAX)) {
+                                    old_pi[xH][xL][yH][yL][k][i][j] = 0.0;
+                                    pi[xH][xL][yH][yL][k][i][j] = 0.0;
                                 }
 
                                 else {
@@ -310,13 +300,14 @@ void Initialization(int pointer, int aa) {
     for (int xH = 0; xH <= Q_MAX; xH++) {
         for (int xL = 0; xL <= Q_MAX; xL++) {
 
-            for (int yH = 0; yH <= B; yH = yH + B) {
+            for (int yH = 0; yH <= B; yH++) {
                 for (int yL = 0; yL <= B; yL = yL + B) {
 
                     for (int k = 0; k <= MAX_K; k++) {
                         for (int i = 0; i <= NM + 1; i++) {
                             for (int j = 0; j <= NM + 1 - i; j++) {
                                 sum2 += pi[xH][xL][yH][yL][k][i][j];
+                                if (xH == 0 && pi[xH][xL][yH][yL][k][i][j]>0) printf("[%d, %d, %d, %d] = %f\n", xH, xL, yH, yL, pi[xH][xL][yH][yL][k][i][j]);
                             }
                         }
                     }
@@ -368,8 +359,8 @@ void Iteration() {
                                 if (k == MAX_K && i + j == NM + 1) continue;
                                 else if ((yH + yL) == 0 && !(k == 0 && i == 0 && j == 0)) continue;
 
-                                else if ((xH) >= B && (xH) <= Q_MAX && (yH + yL) == 0 && k == 0 && i == 0 && j == 0) continue;
-                                else if ((xH) == 0 && (xL >= B && xL <= Q_MAX) && (yH + yL) == 0 && k == 0 && i == 0 && j == 0) continue;
+                                else if ((xH) >= B && (xH) <= Q_MAX && (yH + yL) == 0) continue;
+                                else if ((xH) == 0 && (xL >= B && xL <= Q_MAX) && (yH + yL) == 0) continue;
 
                                 else if ((xH + xL) > Q_MAX) continue;
                                 else if (yH != 0 && yL != 0) continue;
@@ -380,15 +371,9 @@ void Iteration() {
                                 else if ((xH >= B && xH <= Q_MAX) && (xL >= 0 && xL <= B - 1) && (yH >= 1 && yH <= B - 1)) continue;
 
                                 // 紫色分類
-                                else if ((xH) == 0 && (xL >= B && xL <= Q_MAX - 1) && (yH >= 1 && yH <= B - 1) && yL == 0) {
-                                    if (xL + yH < Q_MAX) continue;
-                                }
-                                else if ((xH >= 1 && xH <= B - 1) && (xL >= B && xL <= Q_MAX - 1) && (yH == 0) && (yL == 0)) {
-                                    if (xH + xL >= Q_MAX) continue;
-                                }
-                                else if ((xH >= 1 && xH <= B - 1) && (xL >= B && xL <= Q_MAX - 1) && (yH >= 1 && yH <= B - 1) && yL == 0) {
-                                    if (xL + yH < Q_MAX) continue;
-                                }
+                                else if ((xH) == 0 && (xL >= B && xL <= Q_MAX - 1) && (yH >= 1 && yH <= B - 1) && (yL == 0) && (xL + yH < Q_MAX)) continue;
+                                else if ((xH >= 1 && xH <= B - 1) && (xL >= B && xL <= Q_MAX - 1) && (yH == 0) && (yL == 0) && (xH + xL >= Q_MAX)) continue;
+                                else if ((xH >= 1 && xH <= B - 1) && (xL >= B && xL <= Q_MAX - 1) && (yH >= 1 && yH <= B - 1) && (yL == 0) && (xL + yH < Q_MAX)) continue;
 
                                 else if (xH == 0) {
                                     if (xL == 0) {
@@ -4494,7 +4479,6 @@ void Iteration() {
                                                 // 32
                                                 // k = 0
                                                 if (k == 0 && i == 0 && j == 0) {
-
                                                     pi[xH][xL][yH][yL][k][i][j] = (lamH * pi[xH - 1][xL][yH][yL][k][i][j] +
                                                         (j + 1) * epsilon * pi[xH][xL][yH][yL][k][i][j + 1]) /
                                                         (lamH + lamL + (N - k - i - j) * theta + (N - k - i - j) * r * (1.0 - p) + (N - k - i - j) * r * p);
@@ -5719,7 +5703,7 @@ void Normalize() {
     for (int xH = 0; xH <= Q_MAX; xH++) {
         for (int xL = 0; xL <= Q_MAX; xL++) {
 
-            for (int yH = 0; yH <= B; yH = yH + B) {
+            for (int yH = 0; yH <= B; yH++) {
                 for (int yL = 0; yL <= B; yL = yL + B) {
 
                     for (int k = 0; k <= MAX_K; k++) {
@@ -5738,7 +5722,7 @@ void Normalize() {
     for (int xH = 0; xH <= Q_MAX; xH++) {
         for (int xL = 0; xL <= Q_MAX; xL++) {
 
-            for (int yH = 0; yH <= B; yH = yH + B) {
+            for (int yH = 0; yH <= B; yH++) {
                 for (int yL = 0; yL <= B; yL = yL + B) {
 
                     for (int k = 0; k <= MAX_K; k++) {
@@ -5755,7 +5739,7 @@ void Normalize() {
     for (int xH = 0; xH <= Q_MAX; xH++) {
         for (int xL = 0; xL <= Q_MAX; xL++) {
 
-            for (int yH = 0; yH <= B; yH = yH + B) {
+            for (int yH = 0; yH <= B; yH++) {
                 for (int yL = 0; yL <= B; yL = yL + B) {
 
                     for (int k = 0; k <= MAX_K; k++) {
@@ -5774,7 +5758,7 @@ void Normalize() {
     for (int xH = 0; xH <= Q_MAX; xH++) {
         for (int xL = 0; xL <= Q_MAX; xL++) {
 
-            for (int yH = 0; yH <= B; yH = yH + B) {
+            for (int yH = 0; yH <= B; yH++) {
                 for (int yL = 0; yL <= B; yL = yL + B) {
 
                     for (int k = 0; k <= MAX_K; k++) {
@@ -5801,7 +5785,7 @@ void Calculation() {
     for (int xH = 0; xH <= Q_MAX; xH++) {
         for (int xL = 0; xL <= Q_MAX; xL++) {
 
-            for (int yH = 0; yH <= B; yH = yH + B) {
+            for (int yH = 0; yH <= B; yH++) {
                 for (int yL = 0; yL <= B; yL = yL + B) {
 
                     for (int k = 0; k <= MAX_K; k++) {
@@ -5819,7 +5803,7 @@ void Calculation() {
     for (int xH = 0; xH <= Q_MAX; xH++) {
         for (int xL = 0; xL <= Q_MAX; xL++) {
 
-            for (int yH = 0; yH <= B; yH = yH + B) {
+            for (int yH = 0; yH <= B; yH++) {
                 for (int yL = 0; yL <= B; yL = yL + B) {
 
                     for (int k = 0; k <= MAX_K; k++) {
@@ -5837,7 +5821,7 @@ void Calculation() {
     for (int xH = 0; xH <= Q_MAX; xH++) {
         for (int xL = 0; xL <= Q_MAX; xL++) {
 
-            for (int yH = 0; yH <= B; yH = yH + B) {
+            for (int yH = 0; yH <= B; yH++) {
                 for (int yL = 0; yL <= B; yL = yL + B) {
 
                     for (int k = 0; k <= MAX_K; k++) {
@@ -5857,10 +5841,13 @@ void Calculation() {
     for (int xH = 0; xH <= Q_MAX; xH++) {
         for (int xL = 0; xL <= Q_MAX; xL++) {
 
-            for (int k = 0; k <= MAX_K; k++) {
-                for (int i = 0; i <= NM + 1; i++) {
-                    for (int j = 0; j <= NM + 1 - i; j++) {
-                        Lb_T += (B)*pi[xH][xL][B][0][k][i][j];
+            for (int yH = 1; yH <= B; yH++) {
+
+                for (int k = 0; k <= MAX_K; k++) {
+                    for (int i = 0; i <= NM + 1; i++) {
+                        for (int j = 0; j <= NM + 1 - i; j++) {
+                            Lb_T += (yH)*pi[xH][xL][yH][0][k][i][j];
+                        }
                     }
                 }
             }
@@ -5883,10 +5870,13 @@ void Calculation() {
     for (int xH = 0; xH <= Q_MAX; xH++) {
         for (int xL = 0; xL <= Q_MAX; xL++) {
 
-            for (int k = 0; k <= MAX_K; k++) {
-                for (int i = 0; i <= NM + 1; i++) {
-                    for (int j = 0; j <= NM + 1 - i; j++) {
-                        Lb_H += (B)*pi[xH][xL][B][0][k][i][j];
+            for (int yH = 1; yH <= B; yH++) {
+
+                for (int k = 0; k <= MAX_K; k++) {
+                    for (int i = 0; i <= NM + 1; i++) {
+                        for (int j = 0; j <= NM + 1 - i; j++) {
+                            Lb_H += (yH)*pi[xH][xL][yH][0][k][i][j];
+                        }
                     }
                 }
             }
@@ -5920,10 +5910,13 @@ void Calculation() {
     for (int xH = 0; xH <= Q_MAX; xH++) {
         for (int xL = 0; xL <= Q_MAX; xL++) {
 
-            for (int k = 0; k <= MAX_K; k++) {
-                for (int i = 0; i <= NM + 1; i++) {
-                    for (int j = 0; j <= NM + 1 - i; j++) {
-                        Nb_T += pi[xH][xL][B][0][k][i][j];
+            for (int yH = 1; yH <= B; yH++) {
+
+                for (int k = 0; k <= MAX_K; k++) {
+                    for (int i = 0; i <= NM + 1; i++) {
+                        for (int j = 0; j <= NM + 1 - i; j++) {
+                            Nb_T += pi[xH][xL][yH][0][k][i][j];
+                        }
                     }
                 }
             }
@@ -5946,10 +5939,13 @@ void Calculation() {
     for (int xH = 0; xH <= Q_MAX; xH++) {
         for (int xL = 0; xL <= Q_MAX; xL++) {
 
-            for (int k = 0; k <= MAX_K; k++) {
-                for (int i = 0; i <= NM + 1; i++) {
-                    for (int j = 0; j <= NM + 1 - i; j++) {
-                        Nb_H += pi[xH][xL][B][0][k][i][j];
+            for (int yH = 1; yH <= B; yH++) {
+
+                for (int k = 0; k <= MAX_K; k++) {
+                    for (int i = 0; i <= NM + 1; i++) {
+                        for (int j = 0; j <= NM + 1 - i; j++) {
+                            Nb_H += pi[xH][xL][yH][0][k][i][j];
+                        }
                     }
                 }
             }
@@ -5974,13 +5970,17 @@ void Calculation() {
     // Blocking prob. All = High = Low
     for (int xH = 0; xH <= Q_MAX; xH++) {
         int xL_MAX1 = Q_MAX - xH;
-        for (int k = 0; k <= MAX_K; k++) {
-            for (int i = 0; i <= NM + 1; i++) {
-                for (int j = 0; j <= NM + 1 - i; j++) {
-                    //if (pi[xH][xL_MAX1][B][0][k][i][j] != 0) {
-                    //    printf("(%d, %d, B, 0, %d, %d, %d) = %f\n", xH, xL_MAX1, k, i, j, pi[xH][xL_MAX1][B][0][k][i][j]);
-                    //}
-                    Pb_T += pi[xH][xL_MAX1][B][0][k][i][j];
+
+        for (int yH = 1; yH <= B; yH++) {
+
+            for (int k = 0; k <= MAX_K; k++) {
+                for (int i = 0; i <= NM + 1; i++) {
+                    for (int j = 0; j <= NM + 1 - i; j++) {
+                        //if (pi[xH][xL_MAX1][B][0][k][i][j] != 0) {
+                        //    printf("(%d, %d, B, 0, %d, %d, %d) = %f\n", xH, xL_MAX1, k, i, j, pi[xH][xL_MAX1][B][0][k][i][j]);
+                        //}
+                        Pb_T += pi[xH][xL_MAX1][yH][0][k][i][j];
+                    }
                 }
             }
         }
@@ -6003,9 +6003,12 @@ void Calculation() {
     for (int xH = 0; xH <= Q_MAX; xH++) {
         for (int xL = 0; xL <= Q_MAX; xL++) {
 
-            for (int i = 0; i <= NM; i++) {
-                for (int j = 0; j <= NM - i; j++) {
-                    Lvs_T += (B)*pi[xH][xL][B][0][MAX_K][i][j];
+            for (int yH = 1; yH <= B; yH++) {
+
+                for (int i = 0; i <= NM; i++) {
+                    for (int j = 0; j <= NM - i; j++) {
+                        Lvs_T += (yH)*pi[xH][xL][yH][0][MAX_K][i][j];
+                    }
                 }
             }
         }
@@ -6026,9 +6029,12 @@ void Calculation() {
     for (int xH = 0; xH <= Q_MAX; xH++) {
         for (int xL = 0; xL <= Q_MAX; xL++) {
 
-            for (int i = 0; i <= NM; i++) {
-                for (int j = 0; j <= NM - i; j++) {
-                    Lvs_H += (B)*pi[xH][xL][B][0][MAX_K][i][j];
+            for (int yH = 1; yH <= B; yH++) {
+
+                for (int i = 0; i <= NM; i++) {
+                    for (int j = 0; j <= NM - i; j++) {
+                        Lvs_H += (yH)*pi[xH][xL][yH][0][MAX_K][i][j];
+                    }
                 }
             }
         }
@@ -6052,9 +6058,12 @@ void Calculation() {
     for (int xH = 0; xH <= Q_MAX; xH++) {
         for (int xL = 0; xL <= Q_MAX; xL++) {
 
-            for (int k = 0; k <= MAX_K - 1; k++) {
-                for (int i = 0; i <= NM + 1; i++) {
-                    Lvf_T += (B)*pi[xH][xL][B][0][k][i][NM + 1 - i];
+            for (int yH = 1; yH <= B; yH++) {
+
+                for (int k = 0; k <= MAX_K - 1; k++) {
+                    for (int i = 0; i <= NM + 1; i++) {
+                        Lvf_T += (yH)*pi[xH][xL][yH][0][k][i][NM + 1 - i];
+                    }
                 }
             }
         }
@@ -6074,9 +6083,12 @@ void Calculation() {
     for (int xH = 0; xH <= Q_MAX; xH++) {
         for (int xL = 0; xL <= Q_MAX; xL++) {
 
-            for (int k = 0; k <= MAX_K - 1; k++) {
-                for (int i = 0; i <= NM + 1; i++) {
-                    Lvf_H += (B)*pi[xH][xL][B][0][k][i][NM + 1 - i];
+            for (int yH = 1; yH <= B; yH++) {
+
+                for (int k = 0; k <= MAX_K - 1; k++) {
+                    for (int i = 0; i <= NM + 1; i++) {
+                        Lvf_H += (yH)*pi[xH][xL][yH][0][k][i][NM + 1 - i];
+                    }
                 }
             }
         }
@@ -6155,8 +6167,8 @@ int main() {
         "Le.L_ana", "Lq.L_ana", "Lb.L_ana",  "W.L_ana",   "Wq.L_ana", "Wb.L_ana",
         "Pb.L_ana", "Th.L_ana", "Ths.L_ana", "Thf.L_ana", "Rs.L_ana", "Nb.L_ana" };
 
-    int pointer = 5;
-    while (pointer <= 5) {
+    int pointer = 1;
+    while (pointer <= 12) {
         cout << "Starting case " << pointer << endl;
         csv1.print_title(pointer, analytical_columns);
 
@@ -6179,7 +6191,7 @@ int main() {
                 Pb_L,  Th_L,    Ths_L, Thf_L, Rs_L,  Nb_L };
             csv1.print_data(analytical_data);
             cout << endl;
-            // printf("%f\n", sum); // 正常要是1.0
+            // printf("sum1 = %f\n", sum); // 正常要是1.0
         }
         pointer++;
     }
