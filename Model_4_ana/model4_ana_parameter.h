@@ -6,10 +6,10 @@ const double DEFAULT_NM = 5;
 
 const double DEFAULT_lamH = 5.0;
 const double DEFAULT_lamL = 5.0;
-const double DEFAULT_musH = 10.0;
-const double DEFAULT_mufH = 10.0;
-const double DEFAULT_musL = 10.0;
-const double DEFAULT_mufL = 10.0;
+const double DEFAULT_musH = 5.0;
+const double DEFAULT_musL = 5.0;
+const double DEFAULT_mufH = 5.0;
+const double DEFAULT_mufL = 5.0;
 
 const double DEFAULT_theta = 5.0;
 const double DEFAULT_epsilon = 5.0;

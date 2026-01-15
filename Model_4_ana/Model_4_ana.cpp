@@ -134,7 +134,7 @@ void update_input(int pointer, int aa) {
     N = 3 * NM + 1;
     MAX_K = 2 * NM + 1;
     MAX_I = NM + 1;
-    Q_MAX = 2 * B - 1;
+    Q_MAX = 2 * B;
 }
 
 void Initialization(int pointer, int aa) {
@@ -155,9 +155,9 @@ void Initialization(int pointer, int aa) {
     update_input(pointer, aa);
 
     pi = vector<vector<vector<vector<vector<vector<vector<double>>>>>>>(
-        2 * B,
+        Q_MAX + 1,
         vector<vector<vector<vector<vector<vector<double>>>>>>(
-            2 * B,
+            Q_MAX + 1,
             vector<vector<vector<vector<vector<double>>>>>(
                 B + 1,
                 vector<vector<vector<vector<double>>>>(
@@ -165,9 +165,9 @@ void Initialization(int pointer, int aa) {
                     vector<vector<vector<double>>>(
                         2 * NM + 2, vector<vector<double>>(NM + 2, vector<double>(NM + 2, 0.0)))))));
     old_pi = vector<vector<vector<vector<vector<vector<vector<double>>>>>>>(
-        2 * B,
+        Q_MAX + 1,
         vector<vector<vector<vector<vector<vector<double>>>>>>(
-            2 * B,
+            Q_MAX + 1,
             vector<vector<vector<vector<vector<double>>>>>(
                 B + 1,
                 vector<vector<vector<vector<double>>>>(
@@ -221,6 +221,7 @@ void Initialization(int pointer, int aa) {
             }
         }
     }
+    //printf("%d\n", valid_state_count);
     for (int xH = 0; xH <= Q_MAX; xH++) {
         for (int xL = 0; xL <= Q_MAX; xL++) {
 
@@ -750,7 +751,7 @@ void Iteration() {
                                                 // 4 end
                                             }
                                             else if (yL == B) {
-                                                // 5
+                                                // 5.1
                                                 // k = 0
                                                 if (k == 0 && i == 0 && j == 0) {
                                                     double sum_musH_2L = 0.0;
@@ -919,7 +920,7 @@ void Iteration() {
                                                         lamL * pi[xH][xL - 1][yH][yL][k][i][j]) /
                                                         (lamH + lamL + musL);
                                                 }
-                                                // 5 end
+                                                // 5.1 end
                                             }
                                         }
                                         else if (yH == B) {
@@ -1095,281 +1096,625 @@ void Iteration() {
                                     else if (xL >= B && xL <= Q_MAX - 1) {
                                         if (yH == 0) {
                                             if (yL == B) {
-                                                // 7
-                                                if (k == 0 && i == 0 && j == 0) {
-                                                    pi[xH][xL][yH][yL][k][i][j] = (lamL * pi[xH][xL - 1][yH][yL][k][i][j] +
-                                                        (j + 1) * epsilon * pi[xH][xL][yH][yL][k][i][j + 1]) /
-                                                        (lamH + lamL + (N - k - i - j) * theta + (N - k - i - j) * r * (1.0 - p) + (N - k - i - j) * r * p);
+                                                if (xL >= B && xL <= Q_MAX - B) {
+                                                    // 5.2
+                                                    // k = 0
+                                                    if (k == 0 && i == 0 && j == 0) {
+                                                        double sum_musH_2L = 0.0;
+                                                        for (int y1 = std::max(1, (int)(Q_MAX - (xL + B))); y1 <= B; y1++) {
+                                                            for (int i21L = 0; i21L <= NM; i21L++) {
+                                                                for (int j21L = 0; j21L <= NM - i21L; j21L++) {
+                                                                    sum_musH_2L += pi[xH][xL + B][y1][0][MAX_K][i21L][j21L];
+                                                                }
+                                                            }
+                                                        }
+
+                                                        double sum_mufH_2L = 0.0;
+                                                        for (int y1 = std::max(1, (int)(Q_MAX - (xL + B))); y1 <= B; y1++) {
+                                                            for (int k21L = 0; k21L <= MAX_K - 1; k21L++) {
+                                                                for (int i22L = 0; i22L <= NM + 1; i22L++) {
+                                                                    sum_mufH_2L += pi[xH][xL + B][y1][0][k21L][i22L][NM + 1 - i22L];
+                                                                }
+                                                            }
+                                                        }
+
+                                                        double sum_musL_2L = 0.0;
+                                                        for (int i23L = 0; i23L <= NM; i23L++) {
+                                                            for (int j22L = 0; j22L <= NM - i23L; j22L++) {
+                                                                sum_musL_2L += pi[xH][xL + B][0][B][MAX_K][i23L][j22L];
+                                                            }
+                                                        }
+                                                        double sum_mufL_2L = 0.0;
+                                                        for (int k22L = 0; k22L <= MAX_K - 1; k22L++) {
+                                                            for (int i24L = 0; i24L <= NM + 1; i24L++) {
+                                                                sum_mufL_2L += pi[xH][xL + B][0][B][k22L][i24L][NM + 1 - i24L];
+                                                            }
+                                                        }
+                                                        pi[xH][xL][yH][yL][k][i][j] = (musH * sum_musH_2L +
+                                                            mufH * sum_mufH_2L +
+                                                            musL * sum_musL_2L +
+                                                            mufL * sum_mufL_2L +
+                                                            lamL * pi[xH][xL - 1][yH][yL][k][i][j] +
+                                                            (j + 1) * epsilon * pi[xH][xL][yH][yL][k][i][j + 1]) /
+                                                            (lamH + lamL + (N - k - i - j) * theta + (N - k - i - j) * r * (1.0 - p) + (N - k - i - j) * r * p);
+                                                    }
+                                                    else if (k == 0 && i == 0 && j >= 1 && j <= NM) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = ((j + 1) * epsilon * pi[xH][xL][yH][yL][k][i][j + 1] +
+                                                            (N - k - i - (j - 1)) * theta * pi[xH][xL][yH][yL][k][i][j - 1] +
+                                                            lamL * pi[xH][xL - 1][yH][yL][k][i][j]) /
+                                                            (lamH + lamL + (j)*epsilon + (N - k - i - j) * theta + (N - k - i - j) * r * (1.0 - p) + (N - k - i - j) * r * p);
+                                                    }
+                                                    else if (k == 0 && i == 0 && j == NM + 1) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = ((N - k - i - (j - 1)) * theta * pi[xH][xL][yH][yL][k][i][j - 1] +
+                                                            lamL * pi[xH][xL - 1][yH][yL][k][i][j]) /
+                                                            (lamH + lamL + (j)*epsilon + mufL);
+                                                    }
+                                                    else if (k == 0 && i >= 1 && i <= NM && j == 0) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = ((j + 1) * epsilon * pi[xH][xL][yH][yL][k][i][j + 1] +
+                                                            (N - k - (i - 1) - j) * r * (1.0 - p) * pi[xH][xL][yH][yL][k][i - 1][j] +
+                                                            lamL * pi[xH][xL - 1][yH][yL][k][i][j]) /
+                                                            (lamH + lamL + (N - k - i - j) * theta + (N - k - i - j) * r * (1.0 - p) + (N - k - i - j) * r * p);
+                                                    }
+                                                    else if (k == 0 && i >= 1 && i <= NM && j == NM - i + 1) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = ((N - k - i - (j - 1)) * theta * pi[xH][xL][yH][yL][k][i][j - 1] +
+                                                            (N - k - (i - 1) - j) * r * (1.0 - p) * pi[xH][xL][yH][yL][k][i - 1][j] +
+                                                            lamL * pi[xH][xL - 1][yH][yL][k][i][j]) /
+                                                            (lamH + lamL + (j)*epsilon + mufL);
+                                                    }
+                                                    else if (k == 0 && i >= 1 && i <= NM - 1 && j >= 1 && j <= NM - i) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = ((j + 1) * epsilon * pi[xH][xL][yH][yL][k][i][j + 1] +
+                                                            (N - k - i - (j - 1)) * theta * pi[xH][xL][yH][yL][k][i][j - 1] +
+                                                            (N - k - (i - 1) - j) * r * (1.0 - p) * pi[xH][xL][yH][yL][k][i - 1][j] +
+                                                            lamL * pi[xH][xL - 1][yH][yL][k][i][j]) /
+                                                            (lamH + lamL + (j)*epsilon + (N - k - i - j) * theta + (N - k - i - j) * r * (1.0 - p) + (N - k - i - j) * r * p);
+                                                    }
+                                                    else if (k == 0 && i == NM + 1 && j == 0) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = ((N - k - (i - 1) - j) * r * (1.0 - p) * pi[xH][xL][yH][yL][k][i - 1][j] +
+                                                            lamL * pi[xH][xL - 1][yH][yL][k][i][j]) /
+                                                            (lamH + lamL + mufL);
+                                                    }
+                                                    // k = 1 ~ 2NM
+                                                    else if (k >= 1 && k <= 2 * NM && i == 0 && j == 0) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = ((j + 1) * epsilon * pi[xH][xL][yH][yL][k][i][j + 1] +
+                                                            (N - (k - 1) - i - j) * r * p * pi[xH][xL][yH][yL][k - 1][i][j] +
+                                                            lamL * pi[xH][xL - 1][yH][yL][k][i][j]) /
+                                                            (lamH + lamL + (N - k - i - j) * theta + (N - k - i - j) * r * (1.0 - p) + (N - k - i - j) * r * p);
+                                                    }
+                                                    else if (k >= 1 && k <= 2 * NM && i == 0 && j >= 1 && j <= NM) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = ((j + 1) * epsilon * pi[xH][xL][yH][yL][k][i][j + 1] +
+                                                            (N - k - i - (j - 1)) * theta * pi[xH][xL][yH][yL][k][i][j - 1] +
+                                                            (N - (k - 1) - i - j) * r * p * pi[xH][xL][yH][yL][k - 1][i][j] +
+                                                            lamL * pi[xH][xL - 1][yH][yL][k][i][j]) /
+                                                            (lamH + lamL + (j)*epsilon + (N - k - i - j) * theta + (N - k - i - j) * r * (1.0 - p) + (N - k - i - j) * r * p);
+                                                    }
+                                                    else if (k >= 1 && k <= 2 * NM && i == 0 && j == NM + 1) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = ((N - k - i - (j - 1)) * theta * pi[xH][xL][yH][yL][k][i][j - 1] +
+                                                            lamL * pi[xH][xL - 1][yH][yL][k][i][j]) /
+                                                            (lamH + lamL + (j)*epsilon + mufL);
+                                                    }
+                                                    else if (k >= 1 && k <= 2 * NM && i >= 1 && i <= NM && j == 0) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = ((j + 1) * epsilon * pi[xH][xL][yH][yL][k][i][j + 1] +
+                                                            (N - k - (i - 1) - j) * r * (1.0 - p) * pi[xH][xL][yH][yL][k][i - 1][j] +
+                                                            (N - (k - 1) - i - j) * r * p * pi[xH][xL][yH][yL][k - 1][i][j] +
+                                                            lamL * pi[xH][xL - 1][yH][yL][k][i][j]) /
+                                                            (lamH + lamL + (N - k - i - j) * theta + (N - k - i - j) * r * (1.0 - p) + (N - k - i - j) * r * p);
+                                                    }
+                                                    else if (k >= 1 && k <= 2 * NM && i >= 1 && i <= NM && j == NM - i + 1) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = ((N - k - i - (j - 1)) * theta * pi[xH][xL][yH][yL][k][i][j - 1] +
+                                                            (N - k - (i - 1) - j) * r * (1.0 - p) * pi[xH][xL][yH][yL][k][i - 1][j] +
+                                                            lamL * pi[xH][xL - 1][yH][yL][k][i][j]) /
+                                                            (lamH + lamL + (j)*epsilon + mufL);
+                                                    }
+                                                    else if (k >= 1 && k <= 2 * NM && i >= 1 && i <= NM - 1 && j >= 1 && j <= NM - i) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = ((j + 1) * epsilon * pi[xH][xL][yH][yL][k][i][j + 1] +
+                                                            (N - k - i - (j - 1)) * theta * pi[xH][xL][yH][yL][k][i][j - 1] +
+                                                            (N - k - (i - 1) - j) * r * (1.0 - p) * pi[xH][xL][yH][yL][k][i - 1][j] +
+                                                            (N - (k - 1) - i - j) * r * p * pi[xH][xL][yH][yL][k - 1][i][j] +
+                                                            lamL * pi[xH][xL - 1][yH][yL][k][i][j]) /
+                                                            (lamH + lamL + (j)*epsilon + (N - k - i - j) * theta + (N - k - i - j) * r * (1.0 - p) + (N - k - i - j) * r * p);
+                                                    }
+                                                    else if (k >= 1 && k <= 2 * NM && i == NM + 1 && j == 0) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = ((N - k - (i - 1) - j) * r * (1.0 - p) * pi[xH][xL][yH][yL][k][i - 1][j] +
+                                                            lamL * pi[xH][xL - 1][yH][yL][k][i][j]) /
+                                                            (lamH + lamL + mufL);
+                                                    }
+                                                    // k = MAX_K
+                                                    else if (k == MAX_K && i == 0 && j == 0) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = ((j + 1) * epsilon * pi[xH][xL][yH][yL][k][i][j + 1] +
+                                                            (N - (k - 1) - i - j) * r * p * pi[xH][xL][yH][yL][k - 1][i][j] +
+                                                            lamL * pi[xH][xL - 1][yH][yL][k][i][j]) /
+                                                            (lamH + lamL + (N - k - i - j) * theta + (N - k - i - j) * r * (1.0 - p) + musL);
+                                                    }
+                                                    else if (k == MAX_K && i == 0 && j >= 1 && j <= NM - 1) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = ((j + 1) * epsilon * pi[xH][xL][yH][yL][k][i][j + 1] +
+                                                            (N - k - i - (j - 1)) * theta * pi[xH][xL][yH][yL][k][i][j - 1] +
+                                                            (N - (k - 1) - i - j) * r * p * pi[xH][xL][yH][yL][k - 1][i][j] +
+                                                            lamL * pi[xH][xL - 1][yH][yL][k][i][j]) /
+                                                            (lamH + lamL + (j)*epsilon + (N - k - i - j) * theta + (N - k - i - j) * r * (1.0 - p) + musL);
+                                                    }
+                                                    else if (k == MAX_K && i == 0 && j == NM) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = ((N - k - i - (j - 1)) * theta * pi[xH][xL][yH][yL][k][i][j - 1] +
+                                                            (N - (k - 1) - i - j) * r * p * pi[xH][xL][yH][yL][k - 1][i][j] +
+                                                            lamL * pi[xH][xL - 1][yH][yL][k][i][j]) /
+                                                            (lamH + lamL + (j)*epsilon + musL);
+                                                    }
+                                                    else if (k == MAX_K && i >= 1 && i <= NM - 1 && j == 0) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = ((j + 1) * epsilon * pi[xH][xL][yH][yL][k][i][j + 1] +
+                                                            (N - k - (i - 1) - j) * r * (1.0 - p) * pi[xH][xL][yH][yL][k][i - 1][j] +
+                                                            (N - (k - 1) - i - j) * r * p * pi[xH][xL][yH][yL][k - 1][i][j] +
+                                                            lamL * pi[xH][xL - 1][yH][yL][k][i][j]) /
+                                                            (lamH + lamL + (N - k - i - j) * theta + (N - k - i - j) * r * (1.0 - p) + musL);
+                                                    }
+                                                    else if (k == MAX_K && i >= 1 && i <= NM - 2 && j >= 1 && j <= NM - i - 1) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = ((j + 1) * epsilon * pi[xH][xL][yH][yL][k][i][j + 1] +
+                                                            (N - k - i - (j - 1)) * theta * pi[xH][xL][yH][yL][k][i][j - 1] +
+                                                            (N - k - (i - 1) - j) * r * (1.0 - p) * pi[xH][xL][yH][yL][k][i - 1][j] +
+                                                            (N - (k - 1) - i - j) * r * p * pi[xH][xL][yH][yL][k - 1][i][j] +
+                                                            lamL * pi[xH][xL - 1][yH][yL][k][i][j]) /
+                                                            (lamH + lamL + (j)*epsilon + (N - k - i - j) * theta + (N - k - i - j) * r * (1.0 - p) + musL);
+                                                    }
+                                                    else if (k == MAX_K && i >= 1 && i <= NM - 1 && j == NM - i) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = ((N - k - i - (j - 1)) * theta * pi[xH][xL][yH][yL][k][i][j - 1] +
+                                                            (N - k - (i - 1) - j) * r * (1.0 - p) * pi[xH][xL][yH][yL][k][i - 1][j] +
+                                                            (N - (k - 1) - i - j) * r * p * pi[xH][xL][yH][yL][k - 1][i][j] +
+                                                            lamL * pi[xH][xL - 1][yH][yL][k][i][j]) /
+                                                            (lamH + lamL + (j)*epsilon + musL);
+                                                    }
+                                                    else if (k == MAX_K && i == NM && j == 0) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = ((N - k - (i - 1) - j) * r * (1.0 - p) * pi[xH][xL][yH][yL][k][i - 1][j] +
+                                                            (N - (k - 1) - i - j) * r * p * pi[xH][xL][yH][yL][k - 1][i][j] +
+                                                            lamL * pi[xH][xL - 1][yH][yL][k][i][j]) /
+                                                            (lamH + lamL + musL);
+                                                    }
+                                                    // 5.2 end
                                                 }
-                                                else if (k == 0 && i == 0 && j >= 1 && j <= NM) {
-                                                    pi[xH][xL][yH][yL][k][i][j] = (lamL * pi[xH][xL - 1][yH][yL][k][i][j] +
-                                                        (j + 1) * epsilon * pi[xH][xL][yH][yL][k][i][j + 1] +
-                                                        (N - k - i - (j - 1)) * theta * pi[xH][xL][yH][yL][k][i][j - 1]) /
-                                                        (lamH + lamL + (j)*epsilon + (N - k - i - j) * theta + (N - k - i - j) * r * (1.0 - p) + (N - k - i - j) * r * p);
+                                                else if (xL >= Q_MAX - B + 1 && xL <= Q_MAX - 1) {
+                                                    // 7
+                                                    if (k == 0 && i == 0 && j == 0) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = (lamL * pi[xH][xL - 1][yH][yL][k][i][j] +
+                                                            (j + 1) * epsilon * pi[xH][xL][yH][yL][k][i][j + 1]) /
+                                                            (lamH + lamL + (N - k - i - j) * theta + (N - k - i - j) * r * (1.0 - p) + (N - k - i - j) * r * p);
+                                                    }
+                                                    else if (k == 0 && i == 0 && j >= 1 && j <= NM) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = (lamL * pi[xH][xL - 1][yH][yL][k][i][j] +
+                                                            (j + 1) * epsilon * pi[xH][xL][yH][yL][k][i][j + 1] +
+                                                            (N - k - i - (j - 1)) * theta * pi[xH][xL][yH][yL][k][i][j - 1]) /
+                                                            (lamH + lamL + (j)*epsilon + (N - k - i - j) * theta + (N - k - i - j) * r * (1.0 - p) + (N - k - i - j) * r * p);
+                                                    }
+                                                    else if (k == 0 && i == 0 && j == NM + 1) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = (lamL * pi[xH][xL - 1][yH][yL][k][i][j] +
+                                                            (N - k - i - (j - 1)) * theta * pi[xH][xL][yH][yL][k][i][j - 1]) /
+                                                            (lamH + lamL + (j)*epsilon + mufL);
+                                                    }
+                                                    else if (k == 0 && i >= 1 && i <= NM && j == 0) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = (lamL * pi[xH][xL - 1][yH][yL][k][i][j] +
+                                                            (j + 1) * epsilon * pi[xH][xL][yH][yL][k][i][j + 1] +
+                                                            (N - k - (i - 1) - j) * r * (1.0 - p) * pi[xH][xL][yH][yL][k][i - 1][j]) /
+                                                            (lamH + lamL + (N - k - i - j) * theta + (N - k - i - j) * r * (1.0 - p) + (N - k - i - j) * r * p);
+                                                    }
+                                                    else if (k == 0 && i >= 1 && i <= NM && j == NM - i + 1) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = (lamL * pi[xH][xL - 1][yH][yL][k][i][j] +
+                                                            (N - k - i - (j - 1)) * theta * pi[xH][xL][yH][yL][k][i][j - 1] +
+                                                            (N - k - (i - 1) - j) * r * (1.0 - p) * pi[xH][xL][yH][yL][k][i - 1][j]) /
+                                                            (lamH + lamL + (j)*epsilon + mufL);
+                                                    }
+                                                    else if (k == 0 && i >= 1 && i <= NM - 1 && j >= 1 && j <= NM - i) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = (lamL * pi[xH][xL - 1][yH][yL][k][i][j] +
+                                                            (j + 1) * epsilon * pi[xH][xL][yH][yL][k][i][j + 1] +
+                                                            (N - k - i - (j - 1)) * theta * pi[xH][xL][yH][yL][k][i][j - 1] +
+                                                            (N - k - (i - 1) - j) * r * (1.0 - p) * pi[xH][xL][yH][yL][k][i - 1][j]) /
+                                                            (lamH + lamL + (j)*epsilon + (N - k - i - j) * theta + (N - k - i - j) * r * (1.0 - p) + (N - k - i - j) * r * p);
+                                                    }
+                                                    else if (k == 0 && i == NM + 1 && j == 0) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = (lamL * pi[xH][xL - 1][yH][yL][k][i][j] +
+                                                            (N - k - (i - 1) - j) * r * (1.0 - p) * pi[xH][xL][yH][yL][k][i - 1][j]) /
+                                                            (lamH + lamL + mufL);
+                                                    }
+                                                    // k = 1 ~ 2NM
+                                                    else if (k >= 1 && k <= 2 * NM && i == 0 && j == 0) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = (lamL * pi[xH][xL - 1][yH][yL][k][i][j] +
+                                                            (j + 1) * epsilon * pi[xH][xL][yH][yL][k][i][j + 1] +
+                                                            (N - (k - 1) - i - j) * r * p * pi[xH][xL][yH][yL][k - 1][i][j]) /
+                                                            (lamH + lamL + (N - k - i - j) * theta + (N - k - i - j) * r * (1.0 - p) + (N - k - i - j) * r * p);
+                                                    }
+                                                    else if (k >= 1 && k <= 2 * NM && i == 0 && j >= 1 && j <= NM) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = (lamL * pi[xH][xL - 1][yH][yL][k][i][j] +
+                                                            (j + 1) * epsilon * pi[xH][xL][yH][yL][k][i][j + 1] +
+                                                            (N - k - i - (j - 1)) * theta * pi[xH][xL][yH][yL][k][i][j - 1] +
+                                                            (N - (k - 1) - i - j) * r * p * pi[xH][xL][yH][yL][k - 1][i][j]) /
+                                                            (lamH + lamL + (j)*epsilon + (N - k - i - j) * theta + (N - k - i - j) * r * (1.0 - p) + (N - k - i - j) * r * p);
+                                                    }
+                                                    else if (k >= 1 && k <= 2 * NM && i == 0 && j == NM + 1) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = (lamL * pi[xH][xL - 1][yH][yL][k][i][j] +
+                                                            (N - k - i - (j - 1)) * theta * pi[xH][xL][yH][yL][k][i][j - 1]) /
+                                                            (lamH + lamL + (j)*epsilon + mufL);
+                                                    }
+                                                    else if (k >= 1 && k <= 2 * NM && i >= 1 && i <= NM && j == 0) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = (lamL * pi[xH][xL - 1][yH][yL][k][i][j] +
+                                                            (j + 1) * epsilon * pi[xH][xL][yH][yL][k][i][j + 1] +
+                                                            (N - k - (i - 1) - j) * r * (1.0 - p) * pi[xH][xL][yH][yL][k][i - 1][j] +
+                                                            (N - (k - 1) - i - j) * r * p * pi[xH][xL][yH][yL][k - 1][i][j]) /
+                                                            (lamH + lamL + (N - k - i - j) * theta + (N - k - i - j) * r * (1.0 - p) + (N - k - i - j) * r * p);
+                                                    }
+                                                    else if (k >= 1 && k <= 2 * NM && i >= 1 && i <= NM && j == NM - i + 1) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = (lamL * pi[xH][xL - 1][yH][yL][k][i][j] +
+                                                            (N - k - i - (j - 1)) * theta * pi[xH][xL][yH][yL][k][i][j - 1] +
+                                                            (N - k - (i - 1) - j) * r * (1.0 - p) * pi[xH][xL][yH][yL][k][i - 1][j]) /
+                                                            (lamH + lamL + (j)*epsilon + mufL);
+                                                    }
+                                                    else if (k >= 1 && k <= 2 * NM && i >= 1 && i <= NM - 1 && j >= 1 && j <= NM - i) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = (lamL * pi[xH][xL - 1][yH][yL][k][i][j] +
+                                                            (j + 1) * epsilon * pi[xH][xL][yH][yL][k][i][j + 1] +
+                                                            (N - k - i - (j - 1)) * theta * pi[xH][xL][yH][yL][k][i][j - 1] +
+                                                            (N - k - (i - 1) - j) * r * (1.0 - p) * pi[xH][xL][yH][yL][k][i - 1][j] +
+                                                            (N - (k - 1) - i - j) * r * p * pi[xH][xL][yH][yL][k - 1][i][j]) /
+                                                            (lamH + lamL + (j)*epsilon + (N - k - i - j) * theta + (N - k - i - j) * r * (1.0 - p) + (N - k - i - j) * r * p);
+                                                    }
+                                                    else if (k >= 1 && k <= 2 * NM && i == NM + 1 && j == 0) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = (lamL * pi[xH][xL - 1][yH][yL][k][i][j] +
+                                                            (N - k - (i - 1) - j) * r * (1.0 - p) * pi[xH][xL][yH][yL][k][i - 1][j]) /
+                                                            (lamH + lamL + mufL);
+                                                    }
+                                                    // k = MAX_K
+                                                    else if (k == MAX_K && i == 0 && j == 0) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = (lamL * pi[xH][xL - 1][yH][yL][k][i][j] +
+                                                            (j + 1) * epsilon * pi[xH][xL][yH][yL][k][i][j + 1] +
+                                                            (N - (k - 1) - i - j) * r * p * pi[xH][xL][yH][yL][k - 1][i][j]) /
+                                                            (lamH + lamL + (N - k - i - j) * theta + (N - k - i - j) * r * (1.0 - p) + musL);
+                                                    }
+                                                    else if (k == MAX_K && i == 0 && j >= 1 && j <= NM - 1) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = (lamL * pi[xH][xL - 1][yH][yL][k][i][j] +
+                                                            (j + 1) * epsilon * pi[xH][xL][yH][yL][k][i][j + 1] +
+                                                            (N - k - i - (j - 1)) * theta * pi[xH][xL][yH][yL][k][i][j - 1] +
+                                                            (N - (k - 1) - i - j) * r * p * pi[xH][xL][yH][yL][k - 1][i][j]) /
+                                                            (lamH + lamL + (j)*epsilon + (N - k - i - j) * theta + (N - k - i - j) * r * (1.0 - p) + musL);
+                                                    }
+                                                    else if (k == MAX_K && i == 0 && j == NM) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = (lamL * pi[xH][xL - 1][yH][yL][k][i][j] +
+                                                            (N - k - i - (j - 1)) * theta * pi[xH][xL][yH][yL][k][i][j - 1] +
+                                                            (N - (k - 1) - i - j) * r * p * pi[xH][xL][yH][yL][k - 1][i][j]) /
+                                                            (lamH + lamL + (j)*epsilon + musL);
+                                                    }
+                                                    else if (k == MAX_K && i >= 1 && i <= NM - 1 && j == 0) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = (lamL * pi[xH][xL - 1][yH][yL][k][i][j] +
+                                                            (j + 1) * epsilon * pi[xH][xL][yH][yL][k][i][j + 1] +
+                                                            (N - k - (i - 1) - j) * r * (1.0 - p) * pi[xH][xL][yH][yL][k][i - 1][j] +
+                                                            (N - (k - 1) - i - j) * r * p * pi[xH][xL][yH][yL][k - 1][i][j]) /
+                                                            (lamH + lamL + (N - k - i - j) * theta + (N - k - i - j) * r * (1.0 - p) + musL);
+                                                    }
+                                                    else if (k == MAX_K && i >= 1 && i <= NM - 2 && j >= 1 && j <= NM - i - 1) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = (lamL * pi[xH][xL - 1][yH][yL][k][i][j] +
+                                                            (j + 1) * epsilon * pi[xH][xL][yH][yL][k][i][j + 1] +
+                                                            (N - k - i - (j - 1)) * theta * pi[xH][xL][yH][yL][k][i][j - 1] +
+                                                            (N - k - (i - 1) - j) * r * (1.0 - p) * pi[xH][xL][yH][yL][k][i - 1][j] +
+                                                            (N - (k - 1) - i - j) * r * p * pi[xH][xL][yH][yL][k - 1][i][j]) /
+                                                            (lamH + lamL + (j)*epsilon + (N - k - i - j) * theta + (N - k - i - j) * r * (1.0 - p) + musL);
+                                                    }
+                                                    else if (k == MAX_K && i >= 1 && i <= NM - 1 && j == NM - i) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = (lamL * pi[xH][xL - 1][yH][yL][k][i][j] +
+                                                            (N - k - i - (j - 1)) * theta * pi[xH][xL][yH][yL][k][i][j - 1] +
+                                                            (N - k - (i - 1) - j) * r * (1.0 - p) * pi[xH][xL][yH][yL][k][i - 1][j] +
+                                                            (N - (k - 1) - i - j) * r * p * pi[xH][xL][yH][yL][k - 1][i][j]) /
+                                                            (lamH + lamL + (j)*epsilon + musL);
+                                                    }
+                                                    else if (k == MAX_K && i == NM && j == 0) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = (lamL * pi[xH][xL - 1][yH][yL][k][i][j] +
+                                                            (N - k - (i - 1) - j) * r * (1.0 - p) * pi[xH][xL][yH][yL][k][i - 1][j] +
+                                                            (N - (k - 1) - i - j) * r * p * pi[xH][xL][yH][yL][k - 1][i][j]) /
+                                                            (lamH + lamL + musL);
+                                                    }
+                                                    // 7 end
                                                 }
-                                                else if (k == 0 && i == 0 && j == NM + 1) {
-                                                    pi[xH][xL][yH][yL][k][i][j] = (lamL * pi[xH][xL - 1][yH][yL][k][i][j] +
-                                                        (N - k - i - (j - 1)) * theta * pi[xH][xL][yH][yL][k][i][j - 1]) /
-                                                        (lamH + lamL + (j)*epsilon + mufL);
-                                                }
-                                                else if (k == 0 && i >= 1 && i <= NM && j == 0) {
-                                                    pi[xH][xL][yH][yL][k][i][j] = (lamL * pi[xH][xL - 1][yH][yL][k][i][j] +
-                                                        (j + 1) * epsilon * pi[xH][xL][yH][yL][k][i][j + 1] +
-                                                        (N - k - (i - 1) - j) * r * (1.0 - p) * pi[xH][xL][yH][yL][k][i - 1][j]) /
-                                                        (lamH + lamL + (N - k - i - j) * theta + (N - k - i - j) * r * (1.0 - p) + (N - k - i - j) * r * p);
-                                                }
-                                                else if (k == 0 && i >= 1 && i <= NM && j == NM - i + 1) {
-                                                    pi[xH][xL][yH][yL][k][i][j] = (lamL * pi[xH][xL - 1][yH][yL][k][i][j] +
-                                                        (N - k - i - (j - 1)) * theta * pi[xH][xL][yH][yL][k][i][j - 1] +
-                                                        (N - k - (i - 1) - j) * r * (1.0 - p) * pi[xH][xL][yH][yL][k][i - 1][j]) /
-                                                        (lamH + lamL + (j)*epsilon + mufL);
-                                                }
-                                                else if (k == 0 && i >= 1 && i <= NM - 1 && j >= 1 && j <= NM - i) {
-                                                    pi[xH][xL][yH][yL][k][i][j] = (lamL * pi[xH][xL - 1][yH][yL][k][i][j] +
-                                                        (j + 1) * epsilon * pi[xH][xL][yH][yL][k][i][j + 1] +
-                                                        (N - k - i - (j - 1)) * theta * pi[xH][xL][yH][yL][k][i][j - 1] +
-                                                        (N - k - (i - 1) - j) * r * (1.0 - p) * pi[xH][xL][yH][yL][k][i - 1][j]) /
-                                                        (lamH + lamL + (j)*epsilon + (N - k - i - j) * theta + (N - k - i - j) * r * (1.0 - p) + (N - k - i - j) * r * p);
-                                                }
-                                                else if (k == 0 && i == NM + 1 && j == 0) {
-                                                    pi[xH][xL][yH][yL][k][i][j] = (lamL * pi[xH][xL - 1][yH][yL][k][i][j] +
-                                                        (N - k - (i - 1) - j) * r * (1.0 - p) * pi[xH][xL][yH][yL][k][i - 1][j]) /
-                                                        (lamH + lamL + mufL);
-                                                }
-                                                // k = 1 ~ 2NM
-                                                else if (k >= 1 && k <= 2 * NM && i == 0 && j == 0) {
-                                                    pi[xH][xL][yH][yL][k][i][j] = (lamL * pi[xH][xL - 1][yH][yL][k][i][j] +
-                                                        (j + 1) * epsilon * pi[xH][xL][yH][yL][k][i][j + 1] +
-                                                        (N - (k - 1) - i - j) * r * p * pi[xH][xL][yH][yL][k - 1][i][j]) /
-                                                        (lamH + lamL + (N - k - i - j) * theta + (N - k - i - j) * r * (1.0 - p) + (N - k - i - j) * r * p);
-                                                }
-                                                else if (k >= 1 && k <= 2 * NM && i == 0 && j >= 1 && j <= NM) {
-                                                    pi[xH][xL][yH][yL][k][i][j] = (lamL * pi[xH][xL - 1][yH][yL][k][i][j] +
-                                                        (j + 1) * epsilon * pi[xH][xL][yH][yL][k][i][j + 1] +
-                                                        (N - k - i - (j - 1)) * theta * pi[xH][xL][yH][yL][k][i][j - 1] +
-                                                        (N - (k - 1) - i - j) * r * p * pi[xH][xL][yH][yL][k - 1][i][j]) /
-                                                        (lamH + lamL + (j)*epsilon + (N - k - i - j) * theta + (N - k - i - j) * r * (1.0 - p) + (N - k - i - j) * r * p);
-                                                }
-                                                else if (k >= 1 && k <= 2 * NM && i == 0 && j == NM + 1) {
-                                                    pi[xH][xL][yH][yL][k][i][j] = (lamL * pi[xH][xL - 1][yH][yL][k][i][j] +
-                                                        (N - k - i - (j - 1)) * theta * pi[xH][xL][yH][yL][k][i][j - 1]) /
-                                                        (lamH + lamL + (j)*epsilon + mufL);
-                                                }
-                                                else if (k >= 1 && k <= 2 * NM && i >= 1 && i <= NM && j == 0) {
-                                                    pi[xH][xL][yH][yL][k][i][j] = (lamL * pi[xH][xL - 1][yH][yL][k][i][j] +
-                                                        (j + 1) * epsilon * pi[xH][xL][yH][yL][k][i][j + 1] +
-                                                        (N - k - (i - 1) - j) * r * (1.0 - p) * pi[xH][xL][yH][yL][k][i - 1][j] +
-                                                        (N - (k - 1) - i - j) * r * p * pi[xH][xL][yH][yL][k - 1][i][j]) /
-                                                        (lamH + lamL + (N - k - i - j) * theta + (N - k - i - j) * r * (1.0 - p) + (N - k - i - j) * r * p);
-                                                }
-                                                else if (k >= 1 && k <= 2 * NM && i >= 1 && i <= NM && j == NM - i + 1) {
-                                                    pi[xH][xL][yH][yL][k][i][j] = (lamL * pi[xH][xL - 1][yH][yL][k][i][j] +
-                                                        (N - k - i - (j - 1)) * theta * pi[xH][xL][yH][yL][k][i][j - 1] +
-                                                        (N - k - (i - 1) - j) * r * (1.0 - p) * pi[xH][xL][yH][yL][k][i - 1][j]) /
-                                                        (lamH + lamL + (j)*epsilon + mufL);
-                                                }
-                                                else if (k >= 1 && k <= 2 * NM && i >= 1 && i <= NM - 1 && j >= 1 && j <= NM - i) {
-                                                    pi[xH][xL][yH][yL][k][i][j] = (lamL * pi[xH][xL - 1][yH][yL][k][i][j] +
-                                                        (j + 1) * epsilon * pi[xH][xL][yH][yL][k][i][j + 1] +
-                                                        (N - k - i - (j - 1)) * theta * pi[xH][xL][yH][yL][k][i][j - 1] +
-                                                        (N - k - (i - 1) - j) * r * (1.0 - p) * pi[xH][xL][yH][yL][k][i - 1][j] +
-                                                        (N - (k - 1) - i - j) * r * p * pi[xH][xL][yH][yL][k - 1][i][j]) /
-                                                        (lamH + lamL + (j)*epsilon + (N - k - i - j) * theta + (N - k - i - j) * r * (1.0 - p) + (N - k - i - j) * r * p);
-                                                }
-                                                else if (k >= 1 && k <= 2 * NM && i == NM + 1 && j == 0) {
-                                                    pi[xH][xL][yH][yL][k][i][j] = (lamL * pi[xH][xL - 1][yH][yL][k][i][j] +
-                                                        (N - k - (i - 1) - j) * r * (1.0 - p) * pi[xH][xL][yH][yL][k][i - 1][j]) /
-                                                        (lamH + lamL + mufL);
-                                                }
-                                                // k = MAX_K
-                                                else if (k == MAX_K && i == 0 && j == 0) {
-                                                    pi[xH][xL][yH][yL][k][i][j] = (lamL * pi[xH][xL - 1][yH][yL][k][i][j] +
-                                                        (j + 1) * epsilon * pi[xH][xL][yH][yL][k][i][j + 1] +
-                                                        (N - (k - 1) - i - j) * r * p * pi[xH][xL][yH][yL][k - 1][i][j]) /
-                                                        (lamH + lamL + (N - k - i - j) * theta + (N - k - i - j) * r * (1.0 - p) + musL);
-                                                }
-                                                else if (k == MAX_K && i == 0 && j >= 1 && j <= NM - 1) {
-                                                    pi[xH][xL][yH][yL][k][i][j] = (lamL * pi[xH][xL - 1][yH][yL][k][i][j] +
-                                                        (j + 1) * epsilon * pi[xH][xL][yH][yL][k][i][j + 1] +
-                                                        (N - k - i - (j - 1)) * theta * pi[xH][xL][yH][yL][k][i][j - 1] +
-                                                        (N - (k - 1) - i - j) * r * p * pi[xH][xL][yH][yL][k - 1][i][j]) /
-                                                        (lamH + lamL + (j)*epsilon + (N - k - i - j) * theta + (N - k - i - j) * r * (1.0 - p) + musL);
-                                                }
-                                                else if (k == MAX_K && i == 0 && j == NM) {
-                                                    pi[xH][xL][yH][yL][k][i][j] = (lamL * pi[xH][xL - 1][yH][yL][k][i][j] +
-                                                        (N - k - i - (j - 1)) * theta * pi[xH][xL][yH][yL][k][i][j - 1] +
-                                                        (N - (k - 1) - i - j) * r * p * pi[xH][xL][yH][yL][k - 1][i][j]) /
-                                                        (lamH + lamL + (j)*epsilon + musL);
-                                                }
-                                                else if (k == MAX_K && i >= 1 && i <= NM - 1 && j == 0) {
-                                                    pi[xH][xL][yH][yL][k][i][j] = (lamL * pi[xH][xL - 1][yH][yL][k][i][j] +
-                                                        (j + 1) * epsilon * pi[xH][xL][yH][yL][k][i][j + 1] +
-                                                        (N - k - (i - 1) - j) * r * (1.0 - p) * pi[xH][xL][yH][yL][k][i - 1][j] +
-                                                        (N - (k - 1) - i - j) * r * p * pi[xH][xL][yH][yL][k - 1][i][j]) /
-                                                        (lamH + lamL + (N - k - i - j) * theta + (N - k - i - j) * r * (1.0 - p) + musL);
-                                                }
-                                                else if (k == MAX_K && i >= 1 && i <= NM - 2 && j >= 1 && j <= NM - i - 1) {
-                                                    pi[xH][xL][yH][yL][k][i][j] = (lamL * pi[xH][xL - 1][yH][yL][k][i][j] +
-                                                        (j + 1) * epsilon * pi[xH][xL][yH][yL][k][i][j + 1] +
-                                                        (N - k - i - (j - 1)) * theta * pi[xH][xL][yH][yL][k][i][j - 1] +
-                                                        (N - k - (i - 1) - j) * r * (1.0 - p) * pi[xH][xL][yH][yL][k][i - 1][j] +
-                                                        (N - (k - 1) - i - j) * r * p * pi[xH][xL][yH][yL][k - 1][i][j]) /
-                                                        (lamH + lamL + (j)*epsilon + (N - k - i - j) * theta + (N - k - i - j) * r * (1.0 - p) + musL);
-                                                }
-                                                else if (k == MAX_K && i >= 1 && i <= NM - 1 && j == NM - i) {
-                                                    pi[xH][xL][yH][yL][k][i][j] = (lamL * pi[xH][xL - 1][yH][yL][k][i][j] +
-                                                        (N - k - i - (j - 1)) * theta * pi[xH][xL][yH][yL][k][i][j - 1] +
-                                                        (N - k - (i - 1) - j) * r * (1.0 - p) * pi[xH][xL][yH][yL][k][i - 1][j] +
-                                                        (N - (k - 1) - i - j) * r * p * pi[xH][xL][yH][yL][k - 1][i][j]) /
-                                                        (lamH + lamL + (j)*epsilon + musL);
-                                                }
-                                                else if (k == MAX_K && i == NM && j == 0) {
-                                                    pi[xH][xL][yH][yL][k][i][j] = (lamL * pi[xH][xL - 1][yH][yL][k][i][j] +
-                                                        (N - k - (i - 1) - j) * r * (1.0 - p) * pi[xH][xL][yH][yL][k][i - 1][j] +
-                                                        (N - (k - 1) - i - j) * r * p * pi[xH][xL][yH][yL][k - 1][i][j]) /
-                                                        (lamH + lamL + musL);
-                                                }
-                                                // 7 end
                                             }
                                         }
                                         else if (yH == B) {
                                             if (yL == 0) {
-                                                // 8
-                                                // K = 0
-                                                if (k == 0 && i == 0 && j == 0) {
-                                                    pi[xH][xL][yH][yL][k][i][j] = (lamL * pi[xH][xL - 1][yH][yL][k][i][j] +
-                                                        (j + 1) * epsilon * pi[xH][xL][yH][yL][k][i][j + 1]) /
-                                                        (lamH + lamL + (N - k - i - j) * theta + (N - k - i - j) * r * (1.0 - p) + (N - k - i - j) * r * p);
+                                                if (xL >= B && xL <= Q_MAX - B) {
+                                                    // 6.2
+                                                    // k = 0
+                                                    if (k == 0 && i == 0 && j == 0) {
+                                                        double sum_musH_2L = 0.0;
+                                                        for (int i21L = 0; i21L <= NM; i21L++) {
+                                                            for (int j21L = 0; j21L <= NM - i21L; j21L++) {
+                                                                sum_musH_2L += pi[xH + B][xL][B][0][MAX_K][i21L][j21L];
+                                                            }
+                                                        }
+                                                        double sum_mufH_2L = 0.0;
+                                                        for (int k21L = 0; k21L <= MAX_K - 1; k21L++) {
+                                                            for (int i22L = 0; i22L <= NM + 1; i22L++) {
+                                                                sum_mufH_2L += pi[xH + B][xL][B][0][k21L][i22L][NM + 1 - i22L];
+                                                            }
+                                                        }
+                                                        double sum_musL_2L = 0.0;
+                                                        for (int i23L = 0; i23L <= NM; i23L++) {
+                                                            for (int j22L = 0; j22L <= NM - i23L; j22L++) {
+                                                                sum_musL_2L += pi[xH + B][xL][0][B][MAX_K][i23L][j22L];
+                                                            }
+                                                        }
+                                                        double sum_mufL_2L = 0.0;
+                                                        for (int k22L = 0; k22L <= MAX_K - 1; k22L++) {
+                                                            for (int i24L = 0; i24L <= NM + 1; i24L++) {
+                                                                sum_mufL_2L += pi[xH + B][xL][0][B][k22L][i24L][NM + 1 - i24L];
+                                                            }
+                                                        }
+                                                        pi[xH][xL][yH][yL][k][i][j] = (musH * sum_musH_2L +
+                                                            mufH * sum_mufH_2L +
+                                                            musL * sum_musL_2L +
+                                                            mufL * sum_mufL_2L +
+                                                            lamH * pi[xH + (B - 1)][xL][yH - B][yL][k][i][j] +
+                                                            lamL * pi[xH][xL - 1][yH][yL][k][i][j] +
+                                                            (j + 1) * epsilon * pi[xH][xL][yH][yL][k][i][j + 1]) /
+                                                            (lamH + lamL + (N - k - i - j) * theta + (N - k - i - j) * r * (1.0 - p) + (N - k - i - j) * r * p);
+                                                    }
+                                                    else if (k == 0 && i == 0 && j >= 1 && j <= NM) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = ((j + 1) * epsilon * pi[xH][xL][yH][yL][k][i][j + 1] +
+                                                            (N - k - i - (j - 1)) * theta * pi[xH][xL][yH][yL][k][i][j - 1] +
+                                                            lamL * pi[xH][xL - 1][yH][yL][k][i][j]) /
+                                                            (lamH + lamL + (j)*epsilon + (N - k - i - j) * theta + (N - k - i - j) * r * (1.0 - p) + (N - k - i - j) * r * p);
+                                                    }
+                                                    else if (k == 0 && i == 0 && j == NM + 1) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = ((N - k - i - (j - 1)) * theta * pi[xH][xL][yH][yL][k][i][j - 1] +
+                                                            lamL * pi[xH][xL - 1][yH][yL][k][i][j]) /
+                                                            (lamH + lamL + (j)*epsilon + mufH);
+                                                    }
+                                                    else if (k == 0 && i >= 1 && i <= NM && j == 0) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = ((j + 1) * epsilon * pi[xH][xL][yH][yL][k][i][j + 1] +
+                                                            (N - k - (i - 1) - j) * r * (1.0 - p) * pi[xH][xL][yH][yL][k][i - 1][j] +
+                                                            lamL * pi[xH][xL - 1][yH][yL][k][i][j]) /
+                                                            (lamH + lamL + (N - k - i - j) * theta + (N - k - i - j) * r * (1.0 - p) + (N - k - i - j) * r * p);
+                                                    }
+                                                    else if (k == 0 && i >= 1 && i <= NM && j == NM - i + 1) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = ((N - k - i - (j - 1)) * theta * pi[xH][xL][yH][yL][k][i][j - 1] +
+                                                            (N - k - (i - 1) - j) * r * (1.0 - p) * pi[xH][xL][yH][yL][k][i - 1][j] +
+                                                            lamL * pi[xH][xL - 1][yH][yL][k][i][j]) /
+                                                            (lamH + lamL + (j)*epsilon + mufH);
+                                                    }
+                                                    else if (k == 0 && i >= 1 && i <= NM - 1 && j >= 1 && j <= NM - i) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = ((j + 1) * epsilon * pi[xH][xL][yH][yL][k][i][j + 1] +
+                                                            (N - k - i - (j - 1)) * theta * pi[xH][xL][yH][yL][k][i][j - 1] +
+                                                            (N - k - (i - 1) - j) * r * (1.0 - p) * pi[xH][xL][yH][yL][k][i - 1][j] +
+                                                            lamL * pi[xH][xL - 1][yH][yL][k][i][j]) /
+                                                            (lamH + lamL + (j)*epsilon + (N - k - i - j) * theta + (N - k - i - j) * r * (1.0 - p) + (N - k - i - j) * r * p);
+                                                    }
+                                                    else if (k == 0 && i == NM + 1 && j == 0) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = ((N - k - (i - 1) - j) * r * (1.0 - p) * pi[xH][xL][yH][yL][k][i - 1][j] +
+                                                            lamL * pi[xH][xL - 1][yH][yL][k][i][j]) /
+                                                            (lamH + lamL + mufH);
+                                                    }
+                                                    // k = 1 ~ 2NM
+                                                    else if (k >= 1 && k <= 2 * NM && i == 0 && j == 0) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = ((j + 1) * epsilon * pi[xH][xL][yH][yL][k][i][j + 1] +
+                                                            (N - (k - 1) - i - j) * r * p * pi[xH][xL][yH][yL][k - 1][i][j] +
+                                                            lamL * pi[xH][xL - 1][yH][yL][k][i][j]) /
+                                                            (lamH + lamL + (N - k - i - j) * theta + (N - k - i - j) * r * (1.0 - p) + (N - k - i - j) * r * p);
+                                                    }
+                                                    else if (k >= 1 && k <= 2 * NM && i == 0 && j >= 1 && j <= NM) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = ((j + 1) * epsilon * pi[xH][xL][yH][yL][k][i][j + 1] +
+                                                            (N - k - i - (j - 1)) * theta * pi[xH][xL][yH][yL][k][i][j - 1] +
+                                                            (N - (k - 1) - i - j) * r * p * pi[xH][xL][yH][yL][k - 1][i][j] +
+                                                            lamL * pi[xH][xL - 1][yH][yL][k][i][j]) /
+                                                            (lamH + lamL + (j)*epsilon + (N - k - i - j) * theta + (N - k - i - j) * r * (1.0 - p) + (N - k - i - j) * r * p);
+                                                    }
+                                                    else if (k >= 1 && k <= 2 * NM && i == 0 && j == NM + 1) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = ((N - k - i - (j - 1)) * theta * pi[xH][xL][yH][yL][k][i][j - 1] +
+                                                            lamL * pi[xH][xL - 1][yH][yL][k][i][j]) /
+                                                            (lamH + lamL + (j)*epsilon + mufH);
+                                                    }
+                                                    else if (k >= 1 && k <= 2 * NM && i >= 1 && i <= NM && j == 0) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = ((j + 1) * epsilon * pi[xH][xL][yH][yL][k][i][j + 1] +
+                                                            (N - k - (i - 1) - j) * r * (1.0 - p) * pi[xH][xL][yH][yL][k][i - 1][j] +
+                                                            (N - (k - 1) - i - j) * r * p * pi[xH][xL][yH][yL][k - 1][i][j] +
+                                                            lamL * pi[xH][xL - 1][yH][yL][k][i][j]) /
+                                                            (lamH + lamL + (N - k - i - j) * theta + (N - k - i - j) * r * (1.0 - p) + (N - k - i - j) * r * p);
+                                                    }
+                                                    else if (k >= 1 && k <= 2 * NM && i >= 1 && i <= NM && j == NM - i + 1) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = ((N - k - i - (j - 1)) * theta * pi[xH][xL][yH][yL][k][i][j - 1] +
+                                                            (N - k - (i - 1) - j) * r * (1.0 - p) * pi[xH][xL][yH][yL][k][i - 1][j] +
+                                                            lamL * pi[xH][xL - 1][yH][yL][k][i][j]) /
+                                                            (lamH + lamL + (j)*epsilon + mufH);
+                                                    }
+                                                    else if (k >= 1 && k <= 2 * NM && i >= 1 && i <= NM - 1 && j >= 1 && j <= NM - i) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = ((j + 1) * epsilon * pi[xH][xL][yH][yL][k][i][j + 1] +
+                                                            (N - k - i - (j - 1)) * theta * pi[xH][xL][yH][yL][k][i][j - 1] +
+                                                            (N - k - (i - 1) - j) * r * (1.0 - p) * pi[xH][xL][yH][yL][k][i - 1][j] +
+                                                            (N - (k - 1) - i - j) * r * p * pi[xH][xL][yH][yL][k - 1][i][j] +
+                                                            lamL * pi[xH][xL - 1][yH][yL][k][i][j]) /
+                                                            (lamH + lamL + (j)*epsilon + (N - k - i - j) * theta + (N - k - i - j) * r * (1.0 - p) + (N - k - i - j) * r * p);
+                                                    }
+                                                    else if (k >= 1 && k <= 2 * NM && i == NM + 1 && j == 0) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = ((N - k - (i - 1) - j) * r * (1.0 - p) * pi[xH][xL][yH][yL][k][i - 1][j] +
+                                                            lamL * pi[xH][xL - 1][yH][yL][k][i][j]) /
+                                                            (lamH + lamL + mufH);
+                                                    }
+                                                    // k = MAX_K
+                                                    else if (k == MAX_K && i == 0 && j == 0) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = ((j + 1) * epsilon * pi[xH][xL][yH][yL][k][i][j + 1] +
+                                                            (N - (k - 1) - i - j) * r * p * pi[xH][xL][yH][yL][k - 1][i][j] +
+                                                            lamL * pi[xH][xL - 1][yH][yL][k][i][j]) /
+                                                            (lamH + lamL + (N - k - i - j) * theta + (N - k - i - j) * r * (1.0 - p) + musH);
+                                                    }
+                                                    else if (k == MAX_K && i == 0 && j >= 1 && j <= NM - 1) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = ((j + 1) * epsilon * pi[xH][xL][yH][yL][k][i][j + 1] +
+                                                            (N - k - i - (j - 1)) * theta * pi[xH][xL][yH][yL][k][i][j - 1] +
+                                                            (N - (k - 1) - i - j) * r * p * pi[xH][xL][yH][yL][k - 1][i][j] +
+                                                            lamL * pi[xH][xL - 1][yH][yL][k][i][j]) /
+                                                            (lamH + lamL + (j)*epsilon + (N - k - i - j) * theta + (N - k - i - j) * r * (1.0 - p) + musH);
+                                                    }
+                                                    else if (k == MAX_K && i == 0 && j == NM) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = ((N - k - i - (j - 1)) * theta * pi[xH][xL][yH][yL][k][i][j - 1] +
+                                                            (N - (k - 1) - i - j) * r * p * pi[xH][xL][yH][yL][k - 1][i][j] +
+                                                            lamL * pi[xH][xL - 1][yH][yL][k][i][j]) /
+                                                            (lamH + lamL + (j)*epsilon + musH);
+                                                    }
+                                                    else if (k == MAX_K && i >= 1 && i <= NM - 1 && j == 0) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = ((j + 1) * epsilon * pi[xH][xL][yH][yL][k][i][j + 1] +
+                                                            (N - k - (i - 1) - j) * r * (1.0 - p) * pi[xH][xL][yH][yL][k][i - 1][j] +
+                                                            (N - (k - 1) - i - j) * r * p * pi[xH][xL][yH][yL][k - 1][i][j] +
+                                                            lamL * pi[xH][xL - 1][yH][yL][k][i][j]) /
+                                                            (lamH + lamL + (N - k - i - j) * theta + (N - k - i - j) * r * (1.0 - p) + musH);
+                                                    }
+                                                    else if (k == MAX_K && i >= 1 && i <= NM - 2 && j >= 1 && j <= NM - i - 1) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = ((j + 1) * epsilon * pi[xH][xL][yH][yL][k][i][j + 1] +
+                                                            (N - k - i - (j - 1)) * theta * pi[xH][xL][yH][yL][k][i][j - 1] +
+                                                            (N - k - (i - 1) - j) * r * (1.0 - p) * pi[xH][xL][yH][yL][k][i - 1][j] +
+                                                            (N - (k - 1) - i - j) * r * p * pi[xH][xL][yH][yL][k - 1][i][j] +
+                                                            lamL * pi[xH][xL - 1][yH][yL][k][i][j]) /
+                                                            (lamH + lamL + (j)*epsilon + (N - k - i - j) * theta + (N - k - i - j) * r * (1.0 - p) + musH);
+                                                    }
+                                                    else if (k == MAX_K && i >= 1 && i <= NM - 1 && j == NM - i) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = ((N - k - i - (j - 1)) * theta * pi[xH][xL][yH][yL][k][i][j - 1] +
+                                                            (N - k - (i - 1) - j) * r * (1.0 - p) * pi[xH][xL][yH][yL][k][i - 1][j] +
+                                                            (N - (k - 1) - i - j) * r * p * pi[xH][xL][yH][yL][k - 1][i][j] +
+                                                            lamL * pi[xH][xL - 1][yH][yL][k][i][j]) /
+                                                            (lamH + lamL + (j)*epsilon + musH);
+                                                    }
+                                                    else if (k == MAX_K && i == NM && j == 0) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = ((N - k - (i - 1) - j) * r * (1.0 - p) * pi[xH][xL][yH][yL][k][i - 1][j] +
+                                                            (N - (k - 1) - i - j) * r * p * pi[xH][xL][yH][yL][k - 1][i][j] +
+                                                            lamL * pi[xH][xL - 1][yH][yL][k][i][j]) /
+                                                            (lamH + lamL + musH);
+                                                    }
+                                                    // 6.2 end
                                                 }
-                                                else if (k == 0 && i == 0 && j >= 1 && j <= NM) {
-                                                    pi[xH][xL][yH][yL][k][i][j] = (lamL * pi[xH][xL - 1][yH][yL][k][i][j] +
-                                                        (j + 1) * epsilon * pi[xH][xL][yH][yL][k][i][j + 1] +
-                                                        (N - k - i - (j - 1)) * theta * pi[xH][xL][yH][yL][k][i][j - 1]) /
-                                                        (lamH + lamL + (j)*epsilon + (N - k - i - j) * theta + (N - k - i - j) * r * (1.0 - p) + (N - k - i - j) * r * p);
+                                                else if (xL >= Q_MAX - B + 1 && xL <= Q_MAX - 1) {
+                                                    // 8
+                                                    // K = 0
+                                                    if (k == 0 && i == 0 && j == 0) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = (lamL * pi[xH][xL - 1][yH][yL][k][i][j] +
+                                                            (j + 1) * epsilon * pi[xH][xL][yH][yL][k][i][j + 1]) /
+                                                            (lamH + lamL + (N - k - i - j) * theta + (N - k - i - j) * r * (1.0 - p) + (N - k - i - j) * r * p);
+                                                    }
+                                                    else if (k == 0 && i == 0 && j >= 1 && j <= NM) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = (lamL * pi[xH][xL - 1][yH][yL][k][i][j] +
+                                                            (j + 1) * epsilon * pi[xH][xL][yH][yL][k][i][j + 1] +
+                                                            (N - k - i - (j - 1)) * theta * pi[xH][xL][yH][yL][k][i][j - 1]) /
+                                                            (lamH + lamL + (j)*epsilon + (N - k - i - j) * theta + (N - k - i - j) * r * (1.0 - p) + (N - k - i - j) * r * p);
+                                                    }
+                                                    else if (k == 0 && i == 0 && j == NM + 1) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = (lamL * pi[xH][xL - 1][yH][yL][k][i][j] +
+                                                            (N - k - i - (j - 1)) * theta * pi[xH][xL][yH][yL][k][i][j - 1]) /
+                                                            (lamH + lamL + (j)*epsilon + mufH);
+                                                    }
+                                                    else if (k == 0 && i >= 1 && i <= NM && j == 0) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = (lamL * pi[xH][xL - 1][yH][yL][k][i][j] +
+                                                            (j + 1) * epsilon * pi[xH][xL][yH][yL][k][i][j + 1] +
+                                                            (N - k - (i - 1) - j) * r * (1.0 - p) * pi[xH][xL][yH][yL][k][i - 1][j]) /
+                                                            (lamH + lamL + (N - k - i - j) * theta + (N - k - i - j) * r * (1.0 - p) + (N - k - i - j) * r * p);
+                                                    }
+                                                    else if (k == 0 && i >= 1 && i <= NM && j == NM - i + 1) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = (lamL * pi[xH][xL - 1][yH][yL][k][i][j] +
+                                                            (N - k - i - (j - 1)) * theta * pi[xH][xL][yH][yL][k][i][j - 1] +
+                                                            (N - k - (i - 1) - j) * r * (1.0 - p) * pi[xH][xL][yH][yL][k][i - 1][j]) /
+                                                            (lamH + lamL + (j)*epsilon + mufH);
+                                                    }
+                                                    else if (k == 0 && i >= 1 && i <= NM - 1 && j >= 1 && j <= NM - i) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = (lamL * pi[xH][xL - 1][yH][yL][k][i][j] +
+                                                            (j + 1) * epsilon * pi[xH][xL][yH][yL][k][i][j + 1] +
+                                                            (N - k - i - (j - 1)) * theta * pi[xH][xL][yH][yL][k][i][j - 1] +
+                                                            (N - k - (i - 1) - j) * r * (1.0 - p) * pi[xH][xL][yH][yL][k][i - 1][j]) /
+                                                            (lamH + lamL + (j)*epsilon + (N - k - i - j) * theta + (N - k - i - j) * r * (1.0 - p) + (N - k - i - j) * r * p);
+                                                    }
+                                                    else if (k == 0 && i == NM + 1 && j == 0) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = (lamL * pi[xH][xL - 1][yH][yL][k][i][j] +
+                                                            (N - k - (i - 1) - j) * r * (1.0 - p) * pi[xH][xL][yH][yL][k][i - 1][j]) /
+                                                            (lamH + lamL + mufH);
+                                                    }
+                                                    // k = 1 ~ 2NM
+                                                    else if (k >= 1 && k <= 2 * NM && i == 0 && j == 0) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = (lamL * pi[xH][xL - 1][yH][yL][k][i][j] +
+                                                            (j + 1) * epsilon * pi[xH][xL][yH][yL][k][i][j + 1] +
+                                                            (N - (k - 1) - i - j) * r * p * pi[xH][xL][yH][yL][k - 1][i][j]) /
+                                                            (lamH + lamL + (N - k - i - j) * theta + (N - k - i - j) * r * (1.0 - p) + (N - k - i - j) * r * p);
+                                                    }
+                                                    else if (k >= 1 && k <= 2 * NM && i == 0 && j >= 1 && j <= NM) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = (lamL * pi[xH][xL - 1][yH][yL][k][i][j] +
+                                                            (j + 1) * epsilon * pi[xH][xL][yH][yL][k][i][j + 1] +
+                                                            (N - k - i - (j - 1)) * theta * pi[xH][xL][yH][yL][k][i][j - 1] +
+                                                            (N - (k - 1) - i - j) * r * p * pi[xH][xL][yH][yL][k - 1][i][j]) /
+                                                            (lamH + lamL + (j)*epsilon + (N - k - i - j) * theta + (N - k - i - j) * r * (1.0 - p) + (N - k - i - j) * r * p);
+                                                    }
+                                                    else if (k >= 1 && k <= 2 * NM && i == 0 && j == NM + 1) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = (lamL * pi[xH][xL - 1][yH][yL][k][i][j] +
+                                                            (N - k - i - (j - 1)) * theta * pi[xH][xL][yH][yL][k][i][j - 1]) /
+                                                            (lamH + lamL + (j)*epsilon + mufH);
+                                                    }
+                                                    else if (k >= 1 && k <= 2 * NM && i >= 1 && i <= NM && j == 0) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = (lamL * pi[xH][xL - 1][yH][yL][k][i][j] +
+                                                            (j + 1) * epsilon * pi[xH][xL][yH][yL][k][i][j + 1] +
+                                                            (N - k - (i - 1) - j) * r * (1.0 - p) * pi[xH][xL][yH][yL][k][i - 1][j] +
+                                                            (N - (k - 1) - i - j) * r * p * pi[xH][xL][yH][yL][k - 1][i][j]) /
+                                                            (lamH + lamL + (N - k - i - j) * theta + (N - k - i - j) * r * (1.0 - p) + (N - k - i - j) * r * p);
+                                                    }
+                                                    else if (k >= 1 && k <= 2 * NM && i >= 1 && i <= NM && j == NM - i + 1) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = (lamL * pi[xH][xL - 1][yH][yL][k][i][j] +
+                                                            (N - k - i - (j - 1)) * theta * pi[xH][xL][yH][yL][k][i][j - 1] +
+                                                            (N - k - (i - 1) - j) * r * (1.0 - p) * pi[xH][xL][yH][yL][k][i - 1][j]) /
+                                                            (lamH + lamL + (j)*epsilon + mufH);
+                                                    }
+                                                    else if (k >= 1 && k <= 2 * NM && i >= 1 && i <= NM - 1 && j >= 1 && j <= NM - i) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = (lamL * pi[xH][xL - 1][yH][yL][k][i][j] +
+                                                            (j + 1) * epsilon * pi[xH][xL][yH][yL][k][i][j + 1] +
+                                                            (N - k - i - (j - 1)) * theta * pi[xH][xL][yH][yL][k][i][j - 1] +
+                                                            (N - k - (i - 1) - j) * r * (1.0 - p) * pi[xH][xL][yH][yL][k][i - 1][j] +
+                                                            (N - (k - 1) - i - j) * r * p * pi[xH][xL][yH][yL][k - 1][i][j]) /
+                                                            (lamH + lamL + (j)*epsilon + (N - k - i - j) * theta + (N - k - i - j) * r * (1.0 - p) + (N - k - i - j) * r * p);
+                                                    }
+                                                    else if (k >= 1 && k <= 2 * NM && i == NM + 1 && j == 0) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = (lamL * pi[xH][xL - 1][yH][yL][k][i][j] +
+                                                            (N - k - (i - 1) - j) * r * (1.0 - p) * pi[xH][xL][yH][yL][k][i - 1][j]) /
+                                                            (lamH + lamL + mufH);
+                                                    }
+                                                    // k = MAX_K
+                                                    else if (k == MAX_K && i == 0 && j == 0) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = (lamL * pi[xH][xL - 1][yH][yL][k][i][j] +
+                                                            (j + 1) * epsilon * pi[xH][xL][yH][yL][k][i][j + 1] +
+                                                            (N - (k - 1) - i - j) * r * p * pi[xH][xL][yH][yL][k - 1][i][j]) /
+                                                            (lamH + lamL + (N - k - i - j) * theta + (N - k - i - j) * r * (1.0 - p) + musH);
+                                                    }
+                                                    else if (k == MAX_K && i == 0 && j >= 1 && j <= NM - 1) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = (lamL * pi[xH][xL - 1][yH][yL][k][i][j] +
+                                                            (j + 1) * epsilon * pi[xH][xL][yH][yL][k][i][j + 1] +
+                                                            (N - k - i - (j - 1)) * theta * pi[xH][xL][yH][yL][k][i][j - 1] +
+                                                            (N - (k - 1) - i - j) * r * p * pi[xH][xL][yH][yL][k - 1][i][j]) /
+                                                            (lamH + lamL + (j)*epsilon + (N - k - i - j) * theta + (N - k - i - j) * r * (1.0 - p) + musH);
+                                                    }
+                                                    else if (k == MAX_K && i == 0 && j == NM) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = (lamL * pi[xH][xL - 1][yH][yL][k][i][j] +
+                                                            (N - k - i - (j - 1)) * theta * pi[xH][xL][yH][yL][k][i][j - 1] +
+                                                            (N - (k - 1) - i - j) * r * p * pi[xH][xL][yH][yL][k - 1][i][j]) /
+                                                            (lamH + lamL + (j)*epsilon + musH);
+                                                    }
+                                                    else if (k == MAX_K && i >= 1 && i <= NM - 1 && j == 0) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = (lamL * pi[xH][xL - 1][yH][yL][k][i][j] +
+                                                            (j + 1) * epsilon * pi[xH][xL][yH][yL][k][i][j + 1] +
+                                                            (N - k - (i - 1) - j) * r * (1.0 - p) * pi[xH][xL][yH][yL][k][i - 1][j] +
+                                                            (N - (k - 1) - i - j) * r * p * pi[xH][xL][yH][yL][k - 1][i][j]) /
+                                                            (lamH + lamL + (N - k - i - j) * theta + (N - k - i - j) * r * (1.0 - p) + musH);
+                                                    }
+                                                    else if (k == MAX_K && i >= 1 && i <= NM - 2 && j >= 1 && j <= NM - i - 1) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = (lamL * pi[xH][xL - 1][yH][yL][k][i][j] +
+                                                            (j + 1) * epsilon * pi[xH][xL][yH][yL][k][i][j + 1] +
+                                                            (N - k - i - (j - 1)) * theta * pi[xH][xL][yH][yL][k][i][j - 1] +
+                                                            (N - k - (i - 1) - j) * r * (1.0 - p) * pi[xH][xL][yH][yL][k][i - 1][j] +
+                                                            (N - (k - 1) - i - j) * r * p * pi[xH][xL][yH][yL][k - 1][i][j]) /
+                                                            (lamH + lamL + (j)*epsilon + (N - k - i - j) * theta + (N - k - i - j) * r * (1.0 - p) + musH);
+                                                    }
+                                                    else if (k == MAX_K && i >= 1 && i <= NM - 1 && j == NM - i) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = (lamL * pi[xH][xL - 1][yH][yL][k][i][j] +
+                                                            (N - k - i - (j - 1)) * theta * pi[xH][xL][yH][yL][k][i][j - 1] +
+                                                            (N - k - (i - 1) - j) * r * (1.0 - p) * pi[xH][xL][yH][yL][k][i - 1][j] +
+                                                            (N - (k - 1) - i - j) * r * p * pi[xH][xL][yH][yL][k - 1][i][j]) /
+                                                            (lamH + lamL + (j)*epsilon + musH);
+                                                    }
+                                                    else if (k == MAX_K && i == NM && j == 0) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = (lamL * pi[xH][xL - 1][yH][yL][k][i][j] +
+                                                            (N - k - (i - 1) - j) * r * (1.0 - p) * pi[xH][xL][yH][yL][k][i - 1][j] +
+                                                            (N - (k - 1) - i - j) * r * p * pi[xH][xL][yH][yL][k - 1][i][j]) /
+                                                            (lamH + lamL + musH);
+                                                    }
+                                                    // 8 end
                                                 }
-                                                else if (k == 0 && i == 0 && j == NM + 1) {
-                                                    pi[xH][xL][yH][yL][k][i][j] = (lamL * pi[xH][xL - 1][yH][yL][k][i][j] +
-                                                        (N - k - i - (j - 1)) * theta * pi[xH][xL][yH][yL][k][i][j - 1]) /
-                                                        (lamH + lamL + (j)*epsilon + mufH);
-                                                }
-                                                else if (k == 0 && i >= 1 && i <= NM && j == 0) {
-                                                    pi[xH][xL][yH][yL][k][i][j] = (lamL * pi[xH][xL - 1][yH][yL][k][i][j] +
-                                                        (j + 1) * epsilon * pi[xH][xL][yH][yL][k][i][j + 1] +
-                                                        (N - k - (i - 1) - j) * r * (1.0 - p) * pi[xH][xL][yH][yL][k][i - 1][j]) /
-                                                        (lamH + lamL + (N - k - i - j) * theta + (N - k - i - j) * r * (1.0 - p) + (N - k - i - j) * r * p);
-                                                }
-                                                else if (k == 0 && i >= 1 && i <= NM && j == NM - i + 1) {
-                                                    pi[xH][xL][yH][yL][k][i][j] = (lamL * pi[xH][xL - 1][yH][yL][k][i][j] +
-                                                        (N - k - i - (j - 1)) * theta * pi[xH][xL][yH][yL][k][i][j - 1] +
-                                                        (N - k - (i - 1) - j) * r * (1.0 - p) * pi[xH][xL][yH][yL][k][i - 1][j]) /
-                                                        (lamH + lamL + (j)*epsilon + mufH);
-                                                }
-                                                else if (k == 0 && i >= 1 && i <= NM - 1 && j >= 1 && j <= NM - i) {
-                                                    pi[xH][xL][yH][yL][k][i][j] = (lamL * pi[xH][xL - 1][yH][yL][k][i][j] +
-                                                        (j + 1) * epsilon * pi[xH][xL][yH][yL][k][i][j + 1] +
-                                                        (N - k - i - (j - 1)) * theta * pi[xH][xL][yH][yL][k][i][j - 1] +
-                                                        (N - k - (i - 1) - j) * r * (1.0 - p) * pi[xH][xL][yH][yL][k][i - 1][j]) /
-                                                        (lamH + lamL + (j)*epsilon + (N - k - i - j) * theta + (N - k - i - j) * r * (1.0 - p) + (N - k - i - j) * r * p);
-                                                }
-                                                else if (k == 0 && i == NM + 1 && j == 0) {
-                                                    pi[xH][xL][yH][yL][k][i][j] = (lamL * pi[xH][xL - 1][yH][yL][k][i][j] +
-                                                        (N - k - (i - 1) - j) * r * (1.0 - p) * pi[xH][xL][yH][yL][k][i - 1][j]) /
-                                                        (lamH + lamL + mufH);
-                                                }
-                                                // k = 1 ~ 2NM
-                                                else if (k >= 1 && k <= 2 * NM && i == 0 && j == 0) {
-                                                    pi[xH][xL][yH][yL][k][i][j] = (lamL * pi[xH][xL - 1][yH][yL][k][i][j] +
-                                                        (j + 1) * epsilon * pi[xH][xL][yH][yL][k][i][j + 1] +
-                                                        (N - (k - 1) - i - j) * r * p * pi[xH][xL][yH][yL][k - 1][i][j]) /
-                                                        (lamH + lamL + (N - k - i - j) * theta + (N - k - i - j) * r * (1.0 - p) + (N - k - i - j) * r * p);
-                                                }
-                                                else if (k >= 1 && k <= 2 * NM && i == 0 && j >= 1 && j <= NM) {
-                                                    pi[xH][xL][yH][yL][k][i][j] = (lamL * pi[xH][xL - 1][yH][yL][k][i][j] +
-                                                        (j + 1) * epsilon * pi[xH][xL][yH][yL][k][i][j + 1] +
-                                                        (N - k - i - (j - 1)) * theta * pi[xH][xL][yH][yL][k][i][j - 1] +
-                                                        (N - (k - 1) - i - j) * r * p * pi[xH][xL][yH][yL][k - 1][i][j]) /
-                                                        (lamH + lamL + (j)*epsilon + (N - k - i - j) * theta + (N - k - i - j) * r * (1.0 - p) + (N - k - i - j) * r * p);
-                                                }
-                                                else if (k >= 1 && k <= 2 * NM && i == 0 && j == NM + 1) {
-                                                    pi[xH][xL][yH][yL][k][i][j] = (lamL * pi[xH][xL - 1][yH][yL][k][i][j] +
-                                                        (N - k - i - (j - 1)) * theta * pi[xH][xL][yH][yL][k][i][j - 1]) /
-                                                        (lamH + lamL + (j)*epsilon + mufH);
-                                                }
-                                                else if (k >= 1 && k <= 2 * NM && i >= 1 && i <= NM && j == 0) {
-                                                    pi[xH][xL][yH][yL][k][i][j] = (lamL * pi[xH][xL - 1][yH][yL][k][i][j] +
-                                                        (j + 1) * epsilon * pi[xH][xL][yH][yL][k][i][j + 1] +
-                                                        (N - k - (i - 1) - j) * r * (1.0 - p) * pi[xH][xL][yH][yL][k][i - 1][j] +
-                                                        (N - (k - 1) - i - j) * r * p * pi[xH][xL][yH][yL][k - 1][i][j]) /
-                                                        (lamH + lamL + (N - k - i - j) * theta + (N - k - i - j) * r * (1.0 - p) + (N - k - i - j) * r * p);
-                                                }
-                                                else if (k >= 1 && k <= 2 * NM && i >= 1 && i <= NM && j == NM - i + 1) {
-                                                    pi[xH][xL][yH][yL][k][i][j] = (lamL * pi[xH][xL - 1][yH][yL][k][i][j] +
-                                                        (N - k - i - (j - 1)) * theta * pi[xH][xL][yH][yL][k][i][j - 1] +
-                                                        (N - k - (i - 1) - j) * r * (1.0 - p) * pi[xH][xL][yH][yL][k][i - 1][j]) /
-                                                        (lamH + lamL + (j)*epsilon + mufH);
-                                                }
-                                                else if (k >= 1 && k <= 2 * NM && i >= 1 && i <= NM - 1 && j >= 1 && j <= NM - i) {
-                                                    pi[xH][xL][yH][yL][k][i][j] = (lamL * pi[xH][xL - 1][yH][yL][k][i][j] +
-                                                        (j + 1) * epsilon * pi[xH][xL][yH][yL][k][i][j + 1] +
-                                                        (N - k - i - (j - 1)) * theta * pi[xH][xL][yH][yL][k][i][j - 1] +
-                                                        (N - k - (i - 1) - j) * r * (1.0 - p) * pi[xH][xL][yH][yL][k][i - 1][j] +
-                                                        (N - (k - 1) - i - j) * r * p * pi[xH][xL][yH][yL][k - 1][i][j]) /
-                                                        (lamH + lamL + (j)*epsilon + (N - k - i - j) * theta + (N - k - i - j) * r * (1.0 - p) + (N - k - i - j) * r * p);
-                                                }
-                                                else if (k >= 1 && k <= 2 * NM && i == NM + 1 && j == 0) {
-                                                    pi[xH][xL][yH][yL][k][i][j] = (lamL * pi[xH][xL - 1][yH][yL][k][i][j] +
-                                                        (N - k - (i - 1) - j) * r * (1.0 - p) * pi[xH][xL][yH][yL][k][i - 1][j]) /
-                                                        (lamH + lamL + mufH);
-                                                }
-                                                // k = MAX_K
-                                                else if (k == MAX_K && i == 0 && j == 0) {
-                                                    pi[xH][xL][yH][yL][k][i][j] = (lamL * pi[xH][xL - 1][yH][yL][k][i][j] +
-                                                        (j + 1) * epsilon * pi[xH][xL][yH][yL][k][i][j + 1] +
-                                                        (N - (k - 1) - i - j) * r * p * pi[xH][xL][yH][yL][k - 1][i][j]) /
-                                                        (lamH + lamL + (N - k - i - j) * theta + (N - k - i - j) * r * (1.0 - p) + musH);
-                                                }
-                                                else if (k == MAX_K && i == 0 && j >= 1 && j <= NM - 1) {
-                                                    pi[xH][xL][yH][yL][k][i][j] = (lamL * pi[xH][xL - 1][yH][yL][k][i][j] +
-                                                        (j + 1) * epsilon * pi[xH][xL][yH][yL][k][i][j + 1] +
-                                                        (N - k - i - (j - 1)) * theta * pi[xH][xL][yH][yL][k][i][j - 1] +
-                                                        (N - (k - 1) - i - j) * r * p * pi[xH][xL][yH][yL][k - 1][i][j]) /
-                                                        (lamH + lamL + (j)*epsilon + (N - k - i - j) * theta + (N - k - i - j) * r * (1.0 - p) + musH);
-                                                }
-                                                else if (k == MAX_K && i == 0 && j == NM) {
-                                                    pi[xH][xL][yH][yL][k][i][j] = (lamL * pi[xH][xL - 1][yH][yL][k][i][j] +
-                                                        (N - k - i - (j - 1)) * theta * pi[xH][xL][yH][yL][k][i][j - 1] +
-                                                        (N - (k - 1) - i - j) * r * p * pi[xH][xL][yH][yL][k - 1][i][j]) /
-                                                        (lamH + lamL + (j)*epsilon + musH);
-                                                }
-                                                else if (k == MAX_K && i >= 1 && i <= NM - 1 && j == 0) {
-                                                    pi[xH][xL][yH][yL][k][i][j] = (lamL * pi[xH][xL - 1][yH][yL][k][i][j] +
-                                                        (j + 1) * epsilon * pi[xH][xL][yH][yL][k][i][j + 1] +
-                                                        (N - k - (i - 1) - j) * r * (1.0 - p) * pi[xH][xL][yH][yL][k][i - 1][j] +
-                                                        (N - (k - 1) - i - j) * r * p * pi[xH][xL][yH][yL][k - 1][i][j]) /
-                                                        (lamH + lamL + (N - k - i - j) * theta + (N - k - i - j) * r * (1.0 - p) + musH);
-                                                }
-                                                else if (k == MAX_K && i >= 1 && i <= NM - 2 && j >= 1 && j <= NM - i - 1) {
-                                                    pi[xH][xL][yH][yL][k][i][j] = (lamL * pi[xH][xL - 1][yH][yL][k][i][j] +
-                                                        (j + 1) * epsilon * pi[xH][xL][yH][yL][k][i][j + 1] +
-                                                        (N - k - i - (j - 1)) * theta * pi[xH][xL][yH][yL][k][i][j - 1] +
-                                                        (N - k - (i - 1) - j) * r * (1.0 - p) * pi[xH][xL][yH][yL][k][i - 1][j] +
-                                                        (N - (k - 1) - i - j) * r * p * pi[xH][xL][yH][yL][k - 1][i][j]) /
-                                                        (lamH + lamL + (j)*epsilon + (N - k - i - j) * theta + (N - k - i - j) * r * (1.0 - p) + musH);
-                                                }
-                                                else if (k == MAX_K && i >= 1 && i <= NM - 1 && j == NM - i) {
-                                                    pi[xH][xL][yH][yL][k][i][j] = (lamL * pi[xH][xL - 1][yH][yL][k][i][j] +
-                                                        (N - k - i - (j - 1)) * theta * pi[xH][xL][yH][yL][k][i][j - 1] +
-                                                        (N - k - (i - 1) - j) * r * (1.0 - p) * pi[xH][xL][yH][yL][k][i - 1][j] +
-                                                        (N - (k - 1) - i - j) * r * p * pi[xH][xL][yH][yL][k - 1][i][j]) /
-                                                        (lamH + lamL + (j)*epsilon + musH);
-                                                }
-                                                else if (k == MAX_K && i == NM && j == 0) {
-                                                    pi[xH][xL][yH][yL][k][i][j] = (lamL * pi[xH][xL - 1][yH][yL][k][i][j] +
-                                                        (N - k - (i - 1) - j) * r * (1.0 - p) * pi[xH][xL][yH][yL][k][i - 1][j] +
-                                                        (N - (k - 1) - i - j) * r * p * pi[xH][xL][yH][yL][k - 1][i][j]) /
-                                                        (lamH + lamL + musH);
-                                                }
-                                                // 8 emd
+                                                
                                             }
                                         }
                                         else if (yH >= 1 && yH <= B - 1) {
@@ -2424,7 +2769,7 @@ void Iteration() {
                                         }
                                         else if (yH == B) {
                                             if (yL == 0) {
-                                                // 17
+                                                // 17.1
                                                 if (k == 0 && i == 0 && j == 0) {
                                                     double sum_musH_10 = 0.0;
                                                     for (int i101 = 0; i101 <= NM; i101++) {
@@ -2586,7 +2931,7 @@ void Iteration() {
                                                         (N - (k - 1) - i - j) * r * p * pi[xH][xL][yH][yL][k - 1][i][j]) /
                                                         (lamH + lamL + musH);
                                                 }
-                                                // 17 emd
+                                                // 17.1 emd
                                             }
                                         }
                                     }
@@ -2789,7 +3134,7 @@ void Iteration() {
                                         }
                                         else if (yH == B) {
                                             if (yL == 0) {
-                                                if (xH + xL < B) {
+                                                if (xH + xL <= Q_MAX - B) {
                                                     // 20
                                                     // k = 0
                                                     if (k == 0 && i == 0 && j == 0) {
@@ -2976,7 +3321,7 @@ void Iteration() {
                                                     }
                                                     // 20 end
                                                 }
-                                                else if (xH + xL >= B && xH + xL <= Q_MAX - 1) {
+                                                else if (xH + xL >= Q_MAX - B + 1 && xH + xL <= Q_MAX - 1) {
                                                     // 21
                                                     // k = 0
                                                     if (k == 0 && i == 0 && j == 0) {
@@ -3548,7 +3893,7 @@ void Iteration() {
                                         }
                                         else if (yH == B) {
                                             if (yL == 0) {
-                                                if (xH + xL >= B && xH + xL <= Q_MAX - 1) {
+                                                if (xH + xL >= Q_MAX - B + 1 && xH + xL <= Q_MAX - 1) {
                                                     // 26
                                                     // k = 0
                                                     if (k == 0 && i == 0 && j == 0) {
@@ -4616,142 +4961,309 @@ void Iteration() {
                                         }
                                         else if (yH == B) {
                                             if (yL == 0) {
-                                                // 33
-                                                // k = 0
-                                                if (k == 0 && i == 0 && j == 0) {
-                                                    pi[xH][xL][yH][yL][k][i][j] = (lamH * pi[xH - 1][xL][yH][yL][k][i][j] +
-                                                        (j + 1) * epsilon * pi[xH][xL][yH][yL][k][i][j + 1]) /
-                                                        (lamH + lamL + (N - k - i - j) * theta + (N - k - i - j) * r * (1.0 - p) + (N - k - i - j) * r * p);
+                                                if (xH >= B && xH <= Q_MAX - B) {
+                                                    // 17.2
+                                                    if (k == 0 && i == 0 && j == 0) {
+                                                        double sum_musH_10 = 0.0;
+                                                        for (int i101 = 0; i101 <= NM; i101++) {
+                                                            for (int j101 = 0; j101 <= NM - i101; j101++) {
+                                                                sum_musH_10 += pi[xH + B][xL][B][0][MAX_K][i101][j101];
+                                                            }
+                                                        }
+                                                        double sum_mufH_10 = 0.0;
+                                                        for (int k101 = 0; k101 <= MAX_K - 1; k101++) {
+                                                            for (int i102 = 0; i102 <= NM + 1; i102++) {
+                                                                sum_mufH_10 += pi[xH + B][xL][B][0][k101][i102][NM + 1 - i102];
+                                                            }
+                                                        }
+                                                        double sum_musL_10 = 0.0;
+                                                        for (int i103 = 0; i103 <= NM; i103++) {
+                                                            for (int j102 = 0; j102 <= NM - i103; j102++) {
+                                                                sum_musL_10 += pi[xH + B][xL][0][B][MAX_K][i103][j102];
+                                                            }
+                                                        }
+                                                        double sum_mufL_10 = 0.0;
+                                                        for (int k102 = 0; k102 <= MAX_K - 1; k102++) {
+                                                            for (int i104 = 0; i104 <= NM + 1; i104++) {
+                                                                sum_mufL_10 += pi[xH + B][xL][0][B][k102][i104][NM + 1 - i104];
+                                                            }
+                                                        }
+                                                        pi[xH][xL][yH][yL][k][i][j] = (musH * sum_musH_10 +
+                                                            mufH * sum_mufH_10 +
+                                                            musL * sum_musL_10 +
+                                                            mufL * sum_mufL_10 +
+                                                            lamH * pi[xH - 1][xL][yH][yL][k][i][j] +
+                                                            (j + 1) * epsilon * pi[xH][xL][yH][yL][k][i][j + 1]) /
+                                                            (lamH + lamL + (N - k - i - j) * theta + (N - k - i - j) * r * (1.0 - p) + (N - k - i - j) * r * p);
+                                                    }
+                                                    else if (k == 0 && i == 0 && j >= 1 && j <= NM) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = (lamH * pi[xH - 1][xL][yH][yL][k][i][j] +
+                                                            (j + 1) * epsilon * pi[xH][xL][yH][yL][k][i][j + 1] +
+                                                            (N - k - i - (j - 1)) * theta * pi[xH][xL][yH][yL][k][i][j - 1]) /
+                                                            (lamH + lamL + (j)*epsilon + (N - k - i - j) * theta + (N - k - i - j) * r * (1.0 - p) + (N - k - i - j) * r * p);
+                                                    }
+                                                    else if (k == 0 && i == 0 && j == NM + 1) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = (lamH * pi[xH - 1][xL][yH][yL][k][i][j] +
+                                                            (N - k - i - (j - 1)) * theta * pi[xH][xL][yH][yL][k][i][j - 1]) /
+                                                            (lamH + lamL + (j)*epsilon + mufH);
+                                                    }
+                                                    else if (k == 0 && i >= 1 && i <= NM && j == 0) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = (lamH * pi[xH - 1][xL][yH][yL][k][i][j] +
+                                                            (j + 1) * epsilon * pi[xH][xL][yH][yL][k][i][j + 1] +
+                                                            (N - k - (i - 1) - j) * r * (1.0 - p) * pi[xH][xL][yH][yL][k][i - 1][j]) /
+                                                            (lamH + lamL + (N - k - i - j) * theta + (N - k - i - j) * r * (1.0 - p) + (N - k - i - j) * r * p);
+                                                    }
+                                                    else if (k == 0 && i >= 1 && i <= NM && j == NM - i + 1) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = (lamH * pi[xH - 1][xL][yH][yL][k][i][j] +
+                                                            (N - k - i - (j - 1)) * theta * pi[xH][xL][yH][yL][k][i][j - 1] +
+                                                            (N - k - (i - 1) - j) * r * (1.0 - p) * pi[xH][xL][yH][yL][k][i - 1][j]) /
+                                                            (lamH + lamL + (j)*epsilon + mufH);
+                                                    }
+                                                    else if (k == 0 && i >= 1 && i <= NM - 1 && j >= 1 && j <= NM - i) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = (lamH * pi[xH - 1][xL][yH][yL][k][i][j] +
+                                                            (j + 1) * epsilon * pi[xH][xL][yH][yL][k][i][j + 1] +
+                                                            (N - k - i - (j - 1)) * theta * pi[xH][xL][yH][yL][k][i][j - 1] +
+                                                            (N - k - (i - 1) - j) * r * (1.0 - p) * pi[xH][xL][yH][yL][k][i - 1][j]) /
+                                                            (lamH + lamL + (j)*epsilon + (N - k - i - j) * theta + (N - k - i - j) * r * (1.0 - p) + (N - k - i - j) * r * p);
+                                                    }
+                                                    else if (k == 0 && i == NM + 1 && j == 0) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = (lamH * pi[xH - 1][xL][yH][yL][k][i][j] +
+                                                            (N - k - (i - 1) - j) * r * (1.0 - p) * pi[xH][xL][yH][yL][k][i - 1][j]) /
+                                                            (lamH + lamL + mufH);
+                                                    }
+                                                    // k = 1 ~ 2NM
+                                                    else if (k >= 1 && k <= 2 * NM && i == 0 && j == 0) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = (lamH * pi[xH - 1][xL][yH][yL][k][i][j] +
+                                                            (j + 1) * epsilon * pi[xH][xL][yH][yL][k][i][j + 1] +
+                                                            (N - (k - 1) - i - j) * r * p * pi[xH][xL][yH][yL][k - 1][i][j]) /
+                                                            (lamH + lamL + (N - k - i - j) * theta + (N - k - i - j) * r * (1.0 - p) + (N - k - i - j) * r * p);
+                                                    }
+                                                    else if (k >= 1 && k <= 2 * NM && i == 0 && j >= 1 && j <= NM) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = (lamH * pi[xH - 1][xL][yH][yL][k][i][j] +
+                                                            (j + 1) * epsilon * pi[xH][xL][yH][yL][k][i][j + 1] +
+                                                            (N - k - i - (j - 1)) * theta * pi[xH][xL][yH][yL][k][i][j - 1] +
+                                                            (N - (k - 1) - i - j) * r * p * pi[xH][xL][yH][yL][k - 1][i][j]) /
+                                                            (lamH + lamL + (j)*epsilon + (N - k - i - j) * theta + (N - k - i - j) * r * (1.0 - p) + (N - k - i - j) * r * p);
+                                                    }
+                                                    else if (k >= 1 && k <= 2 * NM && i == 0 && j == NM + 1) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = (lamH * pi[xH - 1][xL][yH][yL][k][i][j] +
+                                                            (N - k - i - (j - 1)) * theta * pi[xH][xL][yH][yL][k][i][j - 1]) /
+                                                            (lamH + lamL + (j)*epsilon + mufH);
+                                                    }
+                                                    else if (k >= 1 && k <= 2 * NM && i >= 1 && i <= NM && j == 0) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = (lamH * pi[xH - 1][xL][yH][yL][k][i][j] +
+                                                            (j + 1) * epsilon * pi[xH][xL][yH][yL][k][i][j + 1] +
+                                                            (N - k - (i - 1) - j) * r * (1.0 - p) * pi[xH][xL][yH][yL][k][i - 1][j] +
+                                                            (N - (k - 1) - i - j) * r * p * pi[xH][xL][yH][yL][k - 1][i][j]) /
+                                                            (lamH + lamL + (N - k - i - j) * theta + (N - k - i - j) * r * (1.0 - p) + (N - k - i - j) * r * p);
+                                                    }
+                                                    else if (k >= 1 && k <= 2 * NM && i >= 1 && i <= NM && j == NM - i + 1) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = (lamH * pi[xH - 1][xL][yH][yL][k][i][j] +
+                                                            (N - k - i - (j - 1)) * theta * pi[xH][xL][yH][yL][k][i][j - 1] +
+                                                            (N - k - (i - 1) - j) * r * (1.0 - p) * pi[xH][xL][yH][yL][k][i - 1][j]) /
+                                                            (lamH + lamL + (j)*epsilon + mufH);
+                                                    }
+                                                    else if (k >= 1 && k <= 2 * NM && i >= 1 && i <= NM - 1 && j >= 1 && j <= NM - i) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = (lamH * pi[xH - 1][xL][yH][yL][k][i][j] +
+                                                            (j + 1) * epsilon * pi[xH][xL][yH][yL][k][i][j + 1] +
+                                                            (N - k - i - (j - 1)) * theta * pi[xH][xL][yH][yL][k][i][j - 1] +
+                                                            (N - k - (i - 1) - j) * r * (1.0 - p) * pi[xH][xL][yH][yL][k][i - 1][j] +
+                                                            (N - (k - 1) - i - j) * r * p * pi[xH][xL][yH][yL][k - 1][i][j]) /
+                                                            (lamH + lamL + (j)*epsilon + (N - k - i - j) * theta + (N - k - i - j) * r * (1.0 - p) + (N - k - i - j) * r * p);
+                                                    }
+                                                    else if (k >= 1 && k <= 2 * NM && i == NM + 1 && j == 0) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = (lamH * pi[xH - 1][xL][yH][yL][k][i][j] +
+                                                            (N - k - (i - 1) - j) * r * (1.0 - p) * pi[xH][xL][yH][yL][k][i - 1][j]) /
+                                                            (lamH + lamL + mufH);
+                                                    }
+                                                    // k = MAX_K
+                                                    else if (k == MAX_K && i == 0 && j == 0) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = (lamH * pi[xH - 1][xL][yH][yL][k][i][j] +
+                                                            (j + 1) * epsilon * pi[xH][xL][yH][yL][k][i][j + 1] +
+                                                            (N - (k - 1) - i - j) * r * p * pi[xH][xL][yH][yL][k - 1][i][j]) /
+                                                            (lamH + lamL + (N - k - i - j) * theta + (N - k - i - j) * r * (1.0 - p) + musH);
+                                                    }
+                                                    else if (k == MAX_K && i == 0 && j >= 1 && j <= NM - 1) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = (lamH * pi[xH - 1][xL][yH][yL][k][i][j] +
+                                                            (j + 1) * epsilon * pi[xH][xL][yH][yL][k][i][j + 1] +
+                                                            (N - k - i - (j - 1)) * theta * pi[xH][xL][yH][yL][k][i][j - 1] +
+                                                            (N - (k - 1) - i - j) * r * p * pi[xH][xL][yH][yL][k - 1][i][j]) /
+                                                            (lamH + lamL + (j)*epsilon + (N - k - i - j) * theta + (N - k - i - j) * r * (1.0 - p) + musH);
+                                                    }
+                                                    else if (k == MAX_K && i == 0 && j == NM) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = (lamH * pi[xH - 1][xL][yH][yL][k][i][j] +
+                                                            (N - k - i - (j - 1)) * theta * pi[xH][xL][yH][yL][k][i][j - 1] +
+                                                            (N - (k - 1) - i - j) * r * p * pi[xH][xL][yH][yL][k - 1][i][j]) /
+                                                            (lamH + lamL + (j)*epsilon + musH);
+                                                    }
+                                                    else if (k == MAX_K && i >= 1 && i <= NM - 1 && j == 0) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = (lamH * pi[xH - 1][xL][yH][yL][k][i][j] +
+                                                            (j + 1) * epsilon * pi[xH][xL][yH][yL][k][i][j + 1] +
+                                                            (N - k - (i - 1) - j) * r * (1.0 - p) * pi[xH][xL][yH][yL][k][i - 1][j] +
+                                                            (N - (k - 1) - i - j) * r * p * pi[xH][xL][yH][yL][k - 1][i][j]) /
+                                                            (lamH + lamL + (N - k - i - j) * theta + (N - k - i - j) * r * (1.0 - p) + musH);
+                                                    }
+                                                    else if (k == MAX_K && i >= 1 && i <= NM - 2 && j >= 1 && j <= NM - i - 1) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = (lamH * pi[xH - 1][xL][yH][yL][k][i][j] +
+                                                            (j + 1) * epsilon * pi[xH][xL][yH][yL][k][i][j + 1] +
+                                                            (N - k - i - (j - 1)) * theta * pi[xH][xL][yH][yL][k][i][j - 1] +
+                                                            (N - k - (i - 1) - j) * r * (1.0 - p) * pi[xH][xL][yH][yL][k][i - 1][j] +
+                                                            (N - (k - 1) - i - j) * r * p * pi[xH][xL][yH][yL][k - 1][i][j]) /
+                                                            (lamH + lamL + (j)*epsilon + (N - k - i - j) * theta + (N - k - i - j) * r * (1.0 - p) + musH);
+                                                    }
+                                                    else if (k == MAX_K && i >= 1 && i <= NM - 1 && j == NM - i) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = (lamH * pi[xH - 1][xL][yH][yL][k][i][j] +
+                                                            (N - k - i - (j - 1)) * theta * pi[xH][xL][yH][yL][k][i][j - 1] +
+                                                            (N - k - (i - 1) - j) * r * (1.0 - p) * pi[xH][xL][yH][yL][k][i - 1][j] +
+                                                            (N - (k - 1) - i - j) * r * p * pi[xH][xL][yH][yL][k - 1][i][j]) /
+                                                            (lamH + lamL + (j)*epsilon + musH);
+                                                    }
+                                                    else if (k == MAX_K && i == NM && j == 0) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = (lamH * pi[xH - 1][xL][yH][yL][k][i][j] +
+                                                            (N - k - (i - 1) - j) * r * (1.0 - p) * pi[xH][xL][yH][yL][k][i - 1][j] +
+                                                            (N - (k - 1) - i - j) * r * p * pi[xH][xL][yH][yL][k - 1][i][j]) /
+                                                            (lamH + lamL + musH);
+                                                    }
+                                                    // 17.2 end
                                                 }
-                                                else if (k == 0 && i == 0 && j >= 1 && j <= NM) {
-                                                    pi[xH][xL][yH][yL][k][i][j] = (lamH * pi[xH - 1][xL][yH][yL][k][i][j] +
-                                                        (j + 1) * epsilon * pi[xH][xL][yH][yL][k][i][j + 1] +
-                                                        (N - k - i - (j - 1)) * theta * pi[xH][xL][yH][yL][k][i][j - 1]) /
-                                                        (lamH + lamL + (j)*epsilon + (N - k - i - j) * theta + (N - k - i - j) * r * (1.0 - p) + (N - k - i - j) * r * p);
+                                                else if (xH >= Q_MAX - B + 1 && xH <= Q_MAX - 1) {
+                                                    // 33
+                                                    // k = 0
+                                                    if (k == 0 && i == 0 && j == 0) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = (lamH * pi[xH - 1][xL][yH][yL][k][i][j] +
+                                                            (j + 1) * epsilon * pi[xH][xL][yH][yL][k][i][j + 1]) /
+                                                            (lamH + lamL + (N - k - i - j) * theta + (N - k - i - j) * r * (1.0 - p) + (N - k - i - j) * r * p);
+                                                    }
+                                                    else if (k == 0 && i == 0 && j >= 1 && j <= NM) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = (lamH * pi[xH - 1][xL][yH][yL][k][i][j] +
+                                                            (j + 1) * epsilon * pi[xH][xL][yH][yL][k][i][j + 1] +
+                                                            (N - k - i - (j - 1)) * theta * pi[xH][xL][yH][yL][k][i][j - 1]) /
+                                                            (lamH + lamL + (j)*epsilon + (N - k - i - j) * theta + (N - k - i - j) * r * (1.0 - p) + (N - k - i - j) * r * p);
+                                                    }
+                                                    else if (k == 0 && i == 0 && j == NM + 1) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = (lamH * pi[xH - 1][xL][yH][yL][k][i][j] +
+                                                            (N - k - i - (j - 1)) * theta * pi[xH][xL][yH][yL][k][i][j - 1]) /
+                                                            (lamH + lamL + (j)*epsilon + mufH);
+                                                    }
+                                                    else if (k == 0 && i >= 1 && i <= NM && j == 0) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = (lamH * pi[xH - 1][xL][yH][yL][k][i][j] +
+                                                            (j + 1) * epsilon * pi[xH][xL][yH][yL][k][i][j + 1] +
+                                                            (N - k - (i - 1) - j) * r * (1.0 - p) * pi[xH][xL][yH][yL][k][i - 1][j]) /
+                                                            (lamH + lamL + (N - k - i - j) * theta + (N - k - i - j) * r * (1.0 - p) + (N - k - i - j) * r * p);
+                                                    }
+                                                    else if (k == 0 && i >= 1 && i <= NM && j == NM - i + 1) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = (lamH * pi[xH - 1][xL][yH][yL][k][i][j] +
+                                                            (N - k - i - (j - 1)) * theta * pi[xH][xL][yH][yL][k][i][j - 1] +
+                                                            (N - k - (i - 1) - j) * r * (1.0 - p) * pi[xH][xL][yH][yL][k][i - 1][j]) /
+                                                            (lamH + lamL + (j)*epsilon + mufH);
+                                                    }
+                                                    else if (k == 0 && i >= 1 && i <= NM - 1 && j >= 1 && j <= NM - i) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = (lamH * pi[xH - 1][xL][yH][yL][k][i][j] +
+                                                            (j + 1) * epsilon * pi[xH][xL][yH][yL][k][i][j + 1] +
+                                                            (N - k - i - (j - 1)) * theta * pi[xH][xL][yH][yL][k][i][j - 1] +
+                                                            (N - k - (i - 1) - j) * r * (1.0 - p) * pi[xH][xL][yH][yL][k][i - 1][j]) /
+                                                            (lamH + lamL + (j)*epsilon + (N - k - i - j) * theta + (N - k - i - j) * r * (1.0 - p) + (N - k - i - j) * r * p);
+                                                    }
+                                                    else if (k == 0 && i == NM + 1 && j == 0) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = (lamH * pi[xH - 1][xL][yH][yL][k][i][j] +
+                                                            (N - k - (i - 1) - j) * r * (1.0 - p) * pi[xH][xL][yH][yL][k][i - 1][j]) /
+                                                            (lamH + lamL + mufH);
+                                                    }
+                                                    // k = 1 ~ 2NM
+                                                    else if (k >= 1 && k <= 2 * NM && i == 0 && j == 0) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = (lamH * pi[xH - 1][xL][yH][yL][k][i][j] +
+                                                            (j + 1) * epsilon * pi[xH][xL][yH][yL][k][i][j + 1] +
+                                                            (N - (k - 1) - i - j) * r * p * pi[xH][xL][yH][yL][k - 1][i][j]) /
+                                                            (lamH + lamL + (N - k - i - j) * theta + (N - k - i - j) * r * (1.0 - p) + (N - k - i - j) * r * p);
+                                                    }
+                                                    else if (k >= 1 && k <= 2 * NM && i == 0 && j >= 1 && j <= NM) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = (lamH * pi[xH - 1][xL][yH][yL][k][i][j] +
+                                                            (j + 1) * epsilon * pi[xH][xL][yH][yL][k][i][j + 1] +
+                                                            (N - k - i - (j - 1)) * theta * pi[xH][xL][yH][yL][k][i][j - 1] +
+                                                            (N - (k - 1) - i - j) * r * p * pi[xH][xL][yH][yL][k - 1][i][j]) /
+                                                            (lamH + lamL + (j)*epsilon + (N - k - i - j) * theta + (N - k - i - j) * r * (1.0 - p) + (N - k - i - j) * r * p);
+                                                    }
+                                                    else if (k >= 1 && k <= 2 * NM && i == 0 && j == NM + 1) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = (lamH * pi[xH - 1][xL][yH][yL][k][i][j] +
+                                                            (N - k - i - (j - 1)) * theta * pi[xH][xL][yH][yL][k][i][j - 1]) /
+                                                            (lamH + lamL + (j)*epsilon + mufH);
+                                                    }
+                                                    else if (k >= 1 && k <= 2 * NM && i >= 1 && i <= NM && j == 0) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = (lamH * pi[xH - 1][xL][yH][yL][k][i][j] +
+                                                            (j + 1) * epsilon * pi[xH][xL][yH][yL][k][i][j + 1] +
+                                                            (N - k - (i - 1) - j) * r * (1.0 - p) * pi[xH][xL][yH][yL][k][i - 1][j] +
+                                                            (N - (k - 1) - i - j) * r * p * pi[xH][xL][yH][yL][k - 1][i][j]) /
+                                                            (lamH + lamL + (N - k - i - j) * theta + (N - k - i - j) * r * (1.0 - p) + (N - k - i - j) * r * p);
+                                                    }
+                                                    else if (k >= 1 && k <= 2 * NM && i >= 1 && i <= NM && j == NM - i + 1) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = (lamH * pi[xH - 1][xL][yH][yL][k][i][j] +
+                                                            (N - k - i - (j - 1)) * theta * pi[xH][xL][yH][yL][k][i][j - 1] +
+                                                            (N - k - (i - 1) - j) * r * (1.0 - p) * pi[xH][xL][yH][yL][k][i - 1][j]) /
+                                                            (lamH + lamL + (j)*epsilon + mufH);
+                                                    }
+                                                    else if (k >= 1 && k <= 2 * NM && i >= 1 && i <= NM - 1 && j >= 1 && j <= NM - i) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = (lamH * pi[xH - 1][xL][yH][yL][k][i][j] +
+                                                            (j + 1) * epsilon * pi[xH][xL][yH][yL][k][i][j + 1] +
+                                                            (N - k - i - (j - 1)) * theta * pi[xH][xL][yH][yL][k][i][j - 1] +
+                                                            (N - k - (i - 1) - j) * r * (1.0 - p) * pi[xH][xL][yH][yL][k][i - 1][j] +
+                                                            (N - (k - 1) - i - j) * r * p * pi[xH][xL][yH][yL][k - 1][i][j]) /
+                                                            (lamH + lamL + (j)*epsilon + (N - k - i - j) * theta + (N - k - i - j) * r * (1.0 - p) + (N - k - i - j) * r * p);
+                                                    }
+                                                    else if (k >= 1 && k <= 2 * NM && i == NM + 1 && j == 0) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = (lamH * pi[xH - 1][xL][yH][yL][k][i][j] +
+                                                            (N - k - (i - 1) - j) * r * (1.0 - p) * pi[xH][xL][yH][yL][k][i - 1][j]) /
+                                                            (lamH + lamL + mufH);
+                                                    }
+                                                    // k = MAX_K
+                                                    else if (k == MAX_K && i == 0 && j == 0) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = (lamH * pi[xH - 1][xL][yH][yL][k][i][j] +
+                                                            (j + 1) * epsilon * pi[xH][xL][yH][yL][k][i][j + 1] +
+                                                            (N - (k - 1) - i - j) * r * p * pi[xH][xL][yH][yL][k - 1][i][j]) /
+                                                            (lamH + lamL + (N - k - i - j) * theta + (N - k - i - j) * r * (1.0 - p) + musH);
+                                                    }
+                                                    else if (k == MAX_K && i == 0 && j >= 1 && j <= NM - 1) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = (lamH * pi[xH - 1][xL][yH][yL][k][i][j] +
+                                                            (j + 1) * epsilon * pi[xH][xL][yH][yL][k][i][j + 1] +
+                                                            (N - k - i - (j - 1)) * theta * pi[xH][xL][yH][yL][k][i][j - 1] +
+                                                            (N - (k - 1) - i - j) * r * p * pi[xH][xL][yH][yL][k - 1][i][j]) /
+                                                            (lamH + lamL + (j)*epsilon + (N - k - i - j) * theta + (N - k - i - j) * r * (1.0 - p) + musH);
+                                                    }
+                                                    else if (k == MAX_K && i == 0 && j == NM) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = (lamH * pi[xH - 1][xL][yH][yL][k][i][j] +
+                                                            (N - k - i - (j - 1)) * theta * pi[xH][xL][yH][yL][k][i][j - 1] +
+                                                            (N - (k - 1) - i - j) * r * p * pi[xH][xL][yH][yL][k - 1][i][j]) /
+                                                            (lamH + lamL + (j)*epsilon + musH);
+                                                    }
+                                                    else if (k == MAX_K && i >= 1 && i <= NM - 1 && j == 0) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = (lamH * pi[xH - 1][xL][yH][yL][k][i][j] +
+                                                            (j + 1) * epsilon * pi[xH][xL][yH][yL][k][i][j + 1] +
+                                                            (N - k - (i - 1) - j) * r * (1.0 - p) * pi[xH][xL][yH][yL][k][i - 1][j] +
+                                                            (N - (k - 1) - i - j) * r * p * pi[xH][xL][yH][yL][k - 1][i][j]) /
+                                                            (lamH + lamL + (N - k - i - j) * theta + (N - k - i - j) * r * (1.0 - p) + musH);
+                                                    }
+                                                    else if (k == MAX_K && i >= 1 && i <= NM - 2 && j >= 1 && j <= NM - i - 1) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = (lamH * pi[xH - 1][xL][yH][yL][k][i][j] +
+                                                            (j + 1) * epsilon * pi[xH][xL][yH][yL][k][i][j + 1] +
+                                                            (N - k - i - (j - 1)) * theta * pi[xH][xL][yH][yL][k][i][j - 1] +
+                                                            (N - k - (i - 1) - j) * r * (1.0 - p) * pi[xH][xL][yH][yL][k][i - 1][j] +
+                                                            (N - (k - 1) - i - j) * r * p * pi[xH][xL][yH][yL][k - 1][i][j]) /
+                                                            (lamH + lamL + (j)*epsilon + (N - k - i - j) * theta + (N - k - i - j) * r * (1.0 - p) + musH);
+                                                    }
+                                                    else if (k == MAX_K && i >= 1 && i <= NM - 1 && j == NM - i) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = (lamH * pi[xH - 1][xL][yH][yL][k][i][j] +
+                                                            (N - k - i - (j - 1)) * theta * pi[xH][xL][yH][yL][k][i][j - 1] +
+                                                            (N - k - (i - 1) - j) * r * (1.0 - p) * pi[xH][xL][yH][yL][k][i - 1][j] +
+                                                            (N - (k - 1) - i - j) * r * p * pi[xH][xL][yH][yL][k - 1][i][j]) /
+                                                            (lamH + lamL + (j)*epsilon + musH);
+                                                    }
+                                                    else if (k == MAX_K && i == NM && j == 0) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = (lamH * pi[xH - 1][xL][yH][yL][k][i][j] +
+                                                            (N - k - (i - 1) - j) * r * (1.0 - p) * pi[xH][xL][yH][yL][k][i - 1][j] +
+                                                            (N - (k - 1) - i - j) * r * p * pi[xH][xL][yH][yL][k - 1][i][j]) /
+                                                            (lamH + lamL + musH);
+                                                    }
+                                                    // 33 end
                                                 }
-                                                else if (k == 0 && i == 0 && j == NM + 1) {
-                                                    pi[xH][xL][yH][yL][k][i][j] = (lamH * pi[xH - 1][xL][yH][yL][k][i][j] +
-                                                        (N - k - i - (j - 1)) * theta * pi[xH][xL][yH][yL][k][i][j - 1]) /
-                                                        (lamH + lamL + (j)*epsilon + mufH);
-                                                }
-                                                else if (k == 0 && i >= 1 && i <= NM && j == 0) {
-                                                    pi[xH][xL][yH][yL][k][i][j] = (lamH * pi[xH - 1][xL][yH][yL][k][i][j] +
-                                                        (j + 1) * epsilon * pi[xH][xL][yH][yL][k][i][j + 1] +
-                                                        (N - k - (i - 1) - j) * r * (1.0 - p) * pi[xH][xL][yH][yL][k][i - 1][j]) /
-                                                        (lamH + lamL + (N - k - i - j) * theta + (N - k - i - j) * r * (1.0 - p) + (N - k - i - j) * r * p);
-                                                }
-                                                else if (k == 0 && i >= 1 && i <= NM && j == NM - i + 1) {
-                                                    pi[xH][xL][yH][yL][k][i][j] = (lamH * pi[xH - 1][xL][yH][yL][k][i][j] +
-                                                        (N - k - i - (j - 1)) * theta * pi[xH][xL][yH][yL][k][i][j - 1] +
-                                                        (N - k - (i - 1) - j) * r * (1.0 - p) * pi[xH][xL][yH][yL][k][i - 1][j]) /
-                                                        (lamH + lamL + (j)*epsilon + mufH);
-                                                }
-                                                else if (k == 0 && i >= 1 && i <= NM - 1 && j >= 1 && j <= NM - i) {
-                                                    pi[xH][xL][yH][yL][k][i][j] = (lamH * pi[xH - 1][xL][yH][yL][k][i][j] +
-                                                        (j + 1) * epsilon * pi[xH][xL][yH][yL][k][i][j + 1] +
-                                                        (N - k - i - (j - 1)) * theta * pi[xH][xL][yH][yL][k][i][j - 1] +
-                                                        (N - k - (i - 1) - j) * r * (1.0 - p) * pi[xH][xL][yH][yL][k][i - 1][j]) /
-                                                        (lamH + lamL + (j)*epsilon + (N - k - i - j) * theta + (N - k - i - j) * r * (1.0 - p) + (N - k - i - j) * r * p);
-                                                }
-                                                else if (k == 0 && i == NM + 1 && j == 0) {
-                                                    pi[xH][xL][yH][yL][k][i][j] = (lamH * pi[xH - 1][xL][yH][yL][k][i][j] +
-                                                        (N - k - (i - 1) - j) * r * (1.0 - p) * pi[xH][xL][yH][yL][k][i - 1][j]) /
-                                                        (lamH + lamL + mufH);
-                                                }
-                                                // k = 1 ~ 2NM
-                                                else if (k >= 1 && k <= 2 * NM && i == 0 && j == 0) {
-                                                    pi[xH][xL][yH][yL][k][i][j] = (lamH * pi[xH - 1][xL][yH][yL][k][i][j] +
-                                                        (j + 1) * epsilon * pi[xH][xL][yH][yL][k][i][j + 1] +
-                                                        (N - (k - 1) - i - j) * r * p * pi[xH][xL][yH][yL][k - 1][i][j]) /
-                                                        (lamH + lamL + (N - k - i - j) * theta + (N - k - i - j) * r * (1.0 - p) + (N - k - i - j) * r * p);
-                                                }
-                                                else if (k >= 1 && k <= 2 * NM && i == 0 && j >= 1 && j <= NM) {
-                                                    pi[xH][xL][yH][yL][k][i][j] = (lamH * pi[xH - 1][xL][yH][yL][k][i][j] +
-                                                        (j + 1) * epsilon * pi[xH][xL][yH][yL][k][i][j + 1] +
-                                                        (N - k - i - (j - 1)) * theta * pi[xH][xL][yH][yL][k][i][j - 1] +
-                                                        (N - (k - 1) - i - j) * r * p * pi[xH][xL][yH][yL][k - 1][i][j]) /
-                                                        (lamH + lamL + (j)*epsilon + (N - k - i - j) * theta + (N - k - i - j) * r * (1.0 - p) + (N - k - i - j) * r * p);
-                                                }
-                                                else if (k >= 1 && k <= 2 * NM && i == 0 && j == NM + 1) {
-                                                    pi[xH][xL][yH][yL][k][i][j] = (lamH * pi[xH - 1][xL][yH][yL][k][i][j] +
-                                                        (N - k - i - (j - 1)) * theta * pi[xH][xL][yH][yL][k][i][j - 1]) /
-                                                        (lamH + lamL + (j)*epsilon + mufH);
-                                                }
-                                                else if (k >= 1 && k <= 2 * NM && i >= 1 && i <= NM && j == 0) {
-                                                    pi[xH][xL][yH][yL][k][i][j] = (lamH * pi[xH - 1][xL][yH][yL][k][i][j] +
-                                                        (j + 1) * epsilon * pi[xH][xL][yH][yL][k][i][j + 1] +
-                                                        (N - k - (i - 1) - j) * r * (1.0 - p) * pi[xH][xL][yH][yL][k][i - 1][j] +
-                                                        (N - (k - 1) - i - j) * r * p * pi[xH][xL][yH][yL][k - 1][i][j]) /
-                                                        (lamH + lamL + (N - k - i - j) * theta + (N - k - i - j) * r * (1.0 - p) + (N - k - i - j) * r * p);
-                                                }
-                                                else if (k >= 1 && k <= 2 * NM && i >= 1 && i <= NM && j == NM - i + 1) {
-                                                    pi[xH][xL][yH][yL][k][i][j] = (lamH * pi[xH - 1][xL][yH][yL][k][i][j] +
-                                                        (N - k - i - (j - 1)) * theta * pi[xH][xL][yH][yL][k][i][j - 1] +
-                                                        (N - k - (i - 1) - j) * r * (1.0 - p) * pi[xH][xL][yH][yL][k][i - 1][j]) /
-                                                        (lamH + lamL + (j)*epsilon + mufH);
-                                                }
-                                                else if (k >= 1 && k <= 2 * NM && i >= 1 && i <= NM - 1 && j >= 1 && j <= NM - i) {
-                                                    pi[xH][xL][yH][yL][k][i][j] = (lamH * pi[xH - 1][xL][yH][yL][k][i][j] +
-                                                        (j + 1) * epsilon * pi[xH][xL][yH][yL][k][i][j + 1] +
-                                                        (N - k - i - (j - 1)) * theta * pi[xH][xL][yH][yL][k][i][j - 1] +
-                                                        (N - k - (i - 1) - j) * r * (1.0 - p) * pi[xH][xL][yH][yL][k][i - 1][j] +
-                                                        (N - (k - 1) - i - j) * r * p * pi[xH][xL][yH][yL][k - 1][i][j]) /
-                                                        (lamH + lamL + (j)*epsilon + (N - k - i - j) * theta + (N - k - i - j) * r * (1.0 - p) + (N - k - i - j) * r * p);
-                                                }
-                                                else if (k >= 1 && k <= 2 * NM && i == NM + 1 && j == 0) {
-                                                    pi[xH][xL][yH][yL][k][i][j] = (lamH * pi[xH - 1][xL][yH][yL][k][i][j] +
-                                                        (N - k - (i - 1) - j) * r * (1.0 - p) * pi[xH][xL][yH][yL][k][i - 1][j]) /
-                                                        (lamH + lamL + mufH);
-                                                }
-                                                // k = MAX_K
-                                                else if (k == MAX_K && i == 0 && j == 0) {
-                                                    pi[xH][xL][yH][yL][k][i][j] = (lamH * pi[xH - 1][xL][yH][yL][k][i][j] +
-                                                        (j + 1) * epsilon * pi[xH][xL][yH][yL][k][i][j + 1] +
-                                                        (N - (k - 1) - i - j) * r * p * pi[xH][xL][yH][yL][k - 1][i][j]) /
-                                                        (lamH + lamL + (N - k - i - j) * theta + (N - k - i - j) * r * (1.0 - p) + musH);
-                                                }
-                                                else if (k == MAX_K && i == 0 && j >= 1 && j <= NM - 1) {
-                                                    pi[xH][xL][yH][yL][k][i][j] = (lamH * pi[xH - 1][xL][yH][yL][k][i][j] +
-                                                        (j + 1) * epsilon * pi[xH][xL][yH][yL][k][i][j + 1] +
-                                                        (N - k - i - (j - 1)) * theta * pi[xH][xL][yH][yL][k][i][j - 1] +
-                                                        (N - (k - 1) - i - j) * r * p * pi[xH][xL][yH][yL][k - 1][i][j]) /
-                                                        (lamH + lamL + (j)*epsilon + (N - k - i - j) * theta + (N - k - i - j) * r * (1.0 - p) + musH);
-                                                }
-                                                else if (k == MAX_K && i == 0 && j == NM) {
-                                                    pi[xH][xL][yH][yL][k][i][j] = (lamH * pi[xH - 1][xL][yH][yL][k][i][j] +
-                                                        (N - k - i - (j - 1)) * theta * pi[xH][xL][yH][yL][k][i][j - 1] +
-                                                        (N - (k - 1) - i - j) * r * p * pi[xH][xL][yH][yL][k - 1][i][j]) /
-                                                        (lamH + lamL + (j)*epsilon + musH);
-                                                }
-                                                else if (k == MAX_K && i >= 1 && i <= NM - 1 && j == 0) {
-                                                    pi[xH][xL][yH][yL][k][i][j] = (lamH * pi[xH - 1][xL][yH][yL][k][i][j] +
-                                                        (j + 1) * epsilon * pi[xH][xL][yH][yL][k][i][j + 1] +
-                                                        (N - k - (i - 1) - j) * r * (1.0 - p) * pi[xH][xL][yH][yL][k][i - 1][j] +
-                                                        (N - (k - 1) - i - j) * r * p * pi[xH][xL][yH][yL][k - 1][i][j]) /
-                                                        (lamH + lamL + (N - k - i - j) * theta + (N - k - i - j) * r * (1.0 - p) + musH);
-                                                }
-                                                else if (k == MAX_K && i >= 1 && i <= NM - 2 && j >= 1 && j <= NM - i - 1) {
-                                                    pi[xH][xL][yH][yL][k][i][j] = (lamH * pi[xH - 1][xL][yH][yL][k][i][j] +
-                                                        (j + 1) * epsilon * pi[xH][xL][yH][yL][k][i][j + 1] +
-                                                        (N - k - i - (j - 1)) * theta * pi[xH][xL][yH][yL][k][i][j - 1] +
-                                                        (N - k - (i - 1) - j) * r * (1.0 - p) * pi[xH][xL][yH][yL][k][i - 1][j] +
-                                                        (N - (k - 1) - i - j) * r * p * pi[xH][xL][yH][yL][k - 1][i][j]) /
-                                                        (lamH + lamL + (j)*epsilon + (N - k - i - j) * theta + (N - k - i - j) * r * (1.0 - p) + musH);
-                                                }
-                                                else if (k == MAX_K && i >= 1 && i <= NM - 1 && j == NM - i) {
-                                                    pi[xH][xL][yH][yL][k][i][j] = (lamH * pi[xH - 1][xL][yH][yL][k][i][j] +
-                                                        (N - k - i - (j - 1)) * theta * pi[xH][xL][yH][yL][k][i][j - 1] +
-                                                        (N - k - (i - 1) - j) * r * (1.0 - p) * pi[xH][xL][yH][yL][k][i - 1][j] +
-                                                        (N - (k - 1) - i - j) * r * p * pi[xH][xL][yH][yL][k - 1][i][j]) /
-                                                        (lamH + lamL + (j)*epsilon + musH);
-                                                }
-                                                else if (k == MAX_K && i == NM && j == 0) {
-                                                    pi[xH][xL][yH][yL][k][i][j] = (lamH * pi[xH - 1][xL][yH][yL][k][i][j] +
-                                                        (N - k - (i - 1) - j) * r * (1.0 - p) * pi[xH][xL][yH][yL][k][i - 1][j] +
-                                                        (N - (k - 1) - i - j) * r * p * pi[xH][xL][yH][yL][k - 1][i][j]) /
-                                                        (lamH + lamL + musH);
-                                                }
-                                                // 33 end
                                             }
                                         }
                                     }
@@ -4918,7 +5430,7 @@ void Iteration() {
                                                     // 34 end
                                                 }
                                                 else if (xH + xL == Q_MAX) {
-                                                    // 35
+                                                    // 35.1
                                                     // k = 0
                                                     if (k == 0 && i == 0 && j == 0) {
                                                         pi[xH][xL][yH][yL][k][i][j] = (lamH * pi[xH - 1][xL][yH][yL][k][i][j] +
@@ -5074,13 +5586,13 @@ void Iteration() {
                                                             (N - (k - 1) - i - j) * r * p * pi[xH][xL][yH][yL][k - 1][i][j]) /
                                                             (musL);
                                                     }
-                                                    // 35 end
+                                                    // 35.1 end
                                                 }
                                             }
                                         }
                                         else if (yH == B) {
                                             if (yL == 0) {
-                                                if (xH + xL >= B && xH + xL <= Q_MAX - 1) {
+                                                if (xH + xL >= Q_MAX - B + 1 && xH + xL <= Q_MAX - 1) {
                                                     // 36
                                                     // k = 0
                                                     if (k == 0 && i == 0 && j == 0) {
@@ -5240,7 +5752,7 @@ void Iteration() {
                                                     // 36 end
                                                 }
                                                 else if (xH + xL == Q_MAX) {
-                                                    // 37
+                                                    // 37.1
                                                     // k = 0
                                                     if (k == 0 && i == 0 && j == 0) {
                                                         pi[xH][xL][yH][yL][k][i][j] = (lamH * pi[xH - 1][xL][yH][yL][k][i][j] +
@@ -5396,7 +5908,335 @@ void Iteration() {
                                                             (N - (k - 1) - i - j) * r * p * pi[xH][xL][yH][yL][k - 1][i][j]) /
                                                             (musH);
                                                     }
-                                                    // 37 end
+                                                    // 37.1 end
+                                                }
+                                            }
+                                        }
+                                    }
+                                    else if (xL >= B && xL <= Q_MAX - B) {
+                                        if (yH == 0) {
+                                            if (yL == B) {
+                                                if (xH + xL == Q_MAX) {
+                                                    // 35.2
+                                                    // k = 0
+                                                    if (k == 0 && i == 0 && j == 0) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = (lamH * pi[xH - 1][xL][yH][yL][k][i][j] +
+                                                            lamL * pi[xH][xL - 1][yH][yL][k][i][j] +
+                                                            (j + 1) * epsilon * pi[xH][xL][yH][yL][k][i][j + 1]) /
+                                                            ((N - k - i - j) * theta + (N - k - i - j) * r * (1.0 - p) + (N - k - i - j) * r * p);
+                                                    }
+                                                    else if (k == 0 && i == 0 && j >= 1 && j <= NM) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = (lamH * pi[xH - 1][xL][yH][yL][k][i][j] +
+                                                            lamL * pi[xH][xL - 1][yH][yL][k][i][j] +
+                                                            (j + 1) * epsilon * pi[xH][xL][yH][yL][k][i][j + 1] +
+                                                            (N - k - i - (j - 1)) * theta * pi[xH][xL][yH][yL][k][i][j - 1]) /
+                                                            ((j)*epsilon + (N - k - i - j) * theta + (N - k - i - j) * r * (1.0 - p) + (N - k - i - j) * r * p);
+                                                    }
+                                                    else if (k == 0 && i == 0 && j == NM + 1) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = (lamH * pi[xH - 1][xL][yH][yL][k][i][j] +
+                                                            lamL * pi[xH][xL - 1][yH][yL][k][i][j] +
+                                                            (N - k - i - (j - 1)) * theta * pi[xH][xL][yH][yL][k][i][j - 1]) /
+                                                            ((j)*epsilon + mufL);
+                                                    }
+                                                    else if (k == 0 && i >= 1 && i <= NM && j == 0) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = (lamH * pi[xH - 1][xL][yH][yL][k][i][j] +
+                                                            lamL * pi[xH][xL - 1][yH][yL][k][i][j] +
+                                                            (j + 1) * epsilon * pi[xH][xL][yH][yL][k][i][j + 1] +
+                                                            (N - k - (i - 1) - j) * r * (1.0 - p) * pi[xH][xL][yH][yL][k][i - 1][j]) /
+                                                            ((N - k - i - j) * theta + (N - k - i - j) * r * (1.0 - p) + (N - k - i - j) * r * p);
+                                                    }
+                                                    else if (k == 0 && i >= 1 && i <= NM && j == NM - i + 1) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = (lamH * pi[xH - 1][xL][yH][yL][k][i][j] +
+                                                            lamL * pi[xH][xL - 1][yH][yL][k][i][j] +
+                                                            (N - k - i - (j - 1)) * theta * pi[xH][xL][yH][yL][k][i][j - 1] +
+                                                            (N - k - (i - 1) - j) * r * (1.0 - p) * pi[xH][xL][yH][yL][k][i - 1][j]) /
+                                                            ((j)*epsilon + mufL);
+                                                    }
+                                                    else if (k == 0 && i >= 1 && i <= NM - 1 && j >= 1 && j <= NM - i) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = (lamH * pi[xH - 1][xL][yH][yL][k][i][j] +
+                                                            lamL * pi[xH][xL - 1][yH][yL][k][i][j] +
+                                                            (j + 1) * epsilon * pi[xH][xL][yH][yL][k][i][j + 1] +
+                                                            (N - k - i - (j - 1)) * theta * pi[xH][xL][yH][yL][k][i][j - 1] +
+                                                            (N - k - (i - 1) - j) * r * (1.0 - p) * pi[xH][xL][yH][yL][k][i - 1][j]) /
+                                                            ((j)*epsilon + (N - k - i - j) * theta + (N - k - i - j) * r * (1.0 - p) + (N - k - i - j) * r * p);
+                                                    }
+                                                    else if (k == 0 && i == NM + 1 && j == 0) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = (lamH * pi[xH - 1][xL][yH][yL][k][i][j] +
+                                                            lamL * pi[xH][xL - 1][yH][yL][k][i][j] +
+                                                            (N - k - (i - 1) - j) * r * (1.0 - p) * pi[xH][xL][yH][yL][k][i - 1][j]) /
+                                                            (mufL);
+                                                    }
+                                                    // k = 1 ~ 2NM
+                                                    else if (k >= 1 && k <= 2 * NM && i == 0 && j == 0) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = (lamH * pi[xH - 1][xL][yH][yL][k][i][j] +
+                                                            lamL * pi[xH][xL - 1][yH][yL][k][i][j] +
+                                                            (j + 1) * epsilon * pi[xH][xL][yH][yL][k][i][j + 1] +
+                                                            (N - (k - 1) - i - j) * r * p * pi[xH][xL][yH][yL][k - 1][i][j]) /
+                                                            ((N - k - i - j) * theta + (N - k - i - j) * r * (1.0 - p) + (N - k - i - j) * r * p);
+                                                    }
+                                                    else if (k >= 1 && k <= 2 * NM && i == 0 && j >= 1 && j <= NM) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = (lamH * pi[xH - 1][xL][yH][yL][k][i][j] +
+                                                            lamL * pi[xH][xL - 1][yH][yL][k][i][j] +
+                                                            (j + 1) * epsilon * pi[xH][xL][yH][yL][k][i][j + 1] +
+                                                            (N - k - i - (j - 1)) * theta * pi[xH][xL][yH][yL][k][i][j - 1] +
+                                                            (N - (k - 1) - i - j) * r * p * pi[xH][xL][yH][yL][k - 1][i][j]) /
+                                                            ((j)*epsilon + (N - k - i - j) * theta + (N - k - i - j) * r * (1.0 - p) + (N - k - i - j) * r * p);
+                                                    }
+                                                    else if (k >= 1 && k <= 2 * NM && i == 0 && j == NM + 1) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = (lamH * pi[xH - 1][xL][yH][yL][k][i][j] +
+                                                            lamL * pi[xH][xL - 1][yH][yL][k][i][j] +
+                                                            (N - k - i - (j - 1)) * theta * pi[xH][xL][yH][yL][k][i][j - 1]) /
+                                                            ((j)*epsilon + mufL);
+                                                    }
+                                                    else if (k >= 1 && k <= 2 * NM && i >= 1 && i <= NM && j == 0) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = (lamH * pi[xH - 1][xL][yH][yL][k][i][j] +
+                                                            lamL * pi[xH][xL - 1][yH][yL][k][i][j] +
+                                                            (j + 1) * epsilon * pi[xH][xL][yH][yL][k][i][j + 1] +
+                                                            (N - k - (i - 1) - j) * r * (1.0 - p) * pi[xH][xL][yH][yL][k][i - 1][j] +
+                                                            (N - (k - 1) - i - j) * r * p * pi[xH][xL][yH][yL][k - 1][i][j]) /
+                                                            ((N - k - i - j) * theta + (N - k - i - j) * r * (1.0 - p) + (N - k - i - j) * r * p);
+                                                    }
+                                                    else if (k >= 1 && k <= 2 * NM && i >= 1 && i <= NM && j == NM - i + 1) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = (lamH * pi[xH - 1][xL][yH][yL][k][i][j] +
+                                                            lamL * pi[xH][xL - 1][yH][yL][k][i][j] +
+                                                            (N - k - i - (j - 1)) * theta * pi[xH][xL][yH][yL][k][i][j - 1] +
+                                                            (N - k - (i - 1) - j) * r * (1.0 - p) * pi[xH][xL][yH][yL][k][i - 1][j]) /
+                                                            ((j)*epsilon + mufL);
+                                                    }
+                                                    else if (k >= 1 && k <= 2 * NM && i >= 1 && i <= NM - 1 && j >= 1 && j <= NM - i) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = (lamH * pi[xH - 1][xL][yH][yL][k][i][j] +
+                                                            lamL * pi[xH][xL - 1][yH][yL][k][i][j] +
+                                                            (j + 1) * epsilon * pi[xH][xL][yH][yL][k][i][j + 1] +
+                                                            (N - k - i - (j - 1)) * theta * pi[xH][xL][yH][yL][k][i][j - 1] +
+                                                            (N - k - (i - 1) - j) * r * (1.0 - p) * pi[xH][xL][yH][yL][k][i - 1][j] +
+                                                            (N - (k - 1) - i - j) * r * p * pi[xH][xL][yH][yL][k - 1][i][j]) /
+                                                            ((j)*epsilon + (N - k - i - j) * theta + (N - k - i - j) * r * (1.0 - p) + (N - k - i - j) * r * p);
+                                                    }
+                                                    else if (k >= 1 && k <= 2 * NM && i == NM + 1 && j == 0) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = (lamH * pi[xH - 1][xL][yH][yL][k][i][j] +
+                                                            lamL * pi[xH][xL - 1][yH][yL][k][i][j] +
+                                                            (N - k - (i - 1) - j) * r * (1.0 - p) * pi[xH][xL][yH][yL][k][i - 1][j]) /
+                                                            (mufL);
+                                                    }
+                                                    // k = MAX_K
+                                                    else if (k == MAX_K && i == 0 && j == 0) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = (lamH * pi[xH - 1][xL][yH][yL][k][i][j] +
+                                                            lamL * pi[xH][xL - 1][yH][yL][k][i][j] +
+                                                            (j + 1) * epsilon * pi[xH][xL][yH][yL][k][i][j + 1] +
+                                                            (N - (k - 1) - i - j) * r * p * pi[xH][xL][yH][yL][k - 1][i][j]) /
+                                                            ((N - k - i - j) * theta + (N - k - i - j) * r * (1.0 - p) + musL);
+                                                    }
+                                                    else if (k == MAX_K && i == 0 && j >= 1 && j <= NM - 1) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = (lamH * pi[xH - 1][xL][yH][yL][k][i][j] +
+                                                            lamL * pi[xH][xL - 1][yH][yL][k][i][j] +
+                                                            (j + 1) * epsilon * pi[xH][xL][yH][yL][k][i][j + 1] +
+                                                            (N - k - i - (j - 1)) * theta * pi[xH][xL][yH][yL][k][i][j - 1] +
+                                                            (N - (k - 1) - i - j) * r * p * pi[xH][xL][yH][yL][k - 1][i][j]) /
+                                                            ((j)*epsilon + (N - k - i - j) * theta + (N - k - i - j) * r * (1.0 - p) + musL);
+                                                    }
+                                                    else if (k == MAX_K && i == 0 && j == NM) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = (lamH * pi[xH - 1][xL][yH][yL][k][i][j] +
+                                                            lamL * pi[xH][xL - 1][yH][yL][k][i][j] +
+                                                            (N - k - i - (j - 1)) * theta * pi[xH][xL][yH][yL][k][i][j - 1] +
+                                                            (N - (k - 1) - i - j) * r * p * pi[xH][xL][yH][yL][k - 1][i][j]) /
+                                                            ((j)*epsilon + musL);
+                                                    }
+                                                    else if (k == MAX_K && i >= 1 && i <= NM - 1 && j == 0) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = (lamH * pi[xH - 1][xL][yH][yL][k][i][j] +
+                                                            lamL * pi[xH][xL - 1][yH][yL][k][i][j] +
+                                                            (j + 1) * epsilon * pi[xH][xL][yH][yL][k][i][j + 1] +
+                                                            (N - k - (i - 1) - j) * r * (1.0 - p) * pi[xH][xL][yH][yL][k][i - 1][j] +
+                                                            (N - (k - 1) - i - j) * r * p * pi[xH][xL][yH][yL][k - 1][i][j]) /
+                                                            ((N - k - i - j) * theta + (N - k - i - j) * r * (1.0 - p) + musL);
+                                                    }
+                                                    else if (k == MAX_K && i >= 1 && i <= NM - 2 && j >= 1 && j <= NM - i - 1) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = (lamH * pi[xH - 1][xL][yH][yL][k][i][j] +
+                                                            lamL * pi[xH][xL - 1][yH][yL][k][i][j] +
+                                                            (j + 1) * epsilon * pi[xH][xL][yH][yL][k][i][j + 1] +
+                                                            (N - k - i - (j - 1)) * theta * pi[xH][xL][yH][yL][k][i][j - 1] +
+                                                            (N - k - (i - 1) - j) * r * (1.0 - p) * pi[xH][xL][yH][yL][k][i - 1][j] +
+                                                            (N - (k - 1) - i - j) * r * p * pi[xH][xL][yH][yL][k - 1][i][j]) /
+                                                            ((j)*epsilon + (N - k - i - j) * theta + (N - k - i - j) * r * (1.0 - p) + musL);
+                                                    }
+                                                    else if (k == MAX_K && i >= 1 && i <= NM - 1 && j == NM - i) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = (lamH * pi[xH - 1][xL][yH][yL][k][i][j] +
+                                                            lamL * pi[xH][xL - 1][yH][yL][k][i][j] +
+                                                            (N - k - i - (j - 1)) * theta * pi[xH][xL][yH][yL][k][i][j - 1] +
+                                                            (N - k - (i - 1) - j) * r * (1.0 - p) * pi[xH][xL][yH][yL][k][i - 1][j] +
+                                                            (N - (k - 1) - i - j) * r * p * pi[xH][xL][yH][yL][k - 1][i][j]) /
+                                                            ((j)*epsilon + musL);
+                                                    }
+                                                    else if (k == MAX_K && i == NM && j == 0) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = (lamH * pi[xH - 1][xL][yH][yL][k][i][j] +
+                                                            lamL * pi[xH][xL - 1][yH][yL][k][i][j] +
+                                                            (N - k - (i - 1) - j) * r * (1.0 - p) * pi[xH][xL][yH][yL][k][i - 1][j] +
+                                                            (N - (k - 1) - i - j) * r * p * pi[xH][xL][yH][yL][k - 1][i][j]) /
+                                                            (musL);
+                                                    }
+                                                    // 35.2 end
+                                                }
+                                            }
+                                        }
+                                        else if (yH == B) {
+                                            if (yL == 0) {
+                                                if (xH + xL == Q_MAX) {
+                                                    // 37.2
+                                                    // k = 0
+                                                    if (k == 0 && i == 0 && j == 0) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = (lamH * pi[xH - 1][xL][yH][yL][k][i][j] +
+                                                            lamL * pi[xH][xL - 1][yH][yL][k][i][j] +
+                                                            (j + 1) * epsilon * pi[xH][xL][yH][yL][k][i][j + 1]) /
+                                                            ((N - k - i - j) * theta + (N - k - i - j) * r * (1.0 - p) + (N - k - i - j) * r * p);
+                                                    }
+                                                    else if (k == 0 && i == 0 && j >= 1 && j <= NM) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = (lamH * pi[xH - 1][xL][yH][yL][k][i][j] +
+                                                            lamL * pi[xH][xL - 1][yH][yL][k][i][j] +
+                                                            (j + 1) * epsilon * pi[xH][xL][yH][yL][k][i][j + 1] +
+                                                            (N - k - i - (j - 1)) * theta * pi[xH][xL][yH][yL][k][i][j - 1]) /
+                                                            ((j)*epsilon + (N - k - i - j) * theta + (N - k - i - j) * r * (1.0 - p) + (N - k - i - j) * r * p);
+                                                    }
+                                                    else if (k == 0 && i == 0 && j == NM + 1) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = (lamH * pi[xH - 1][xL][yH][yL][k][i][j] +
+                                                            lamL * pi[xH][xL - 1][yH][yL][k][i][j] +
+                                                            (N - k - i - (j - 1)) * theta * pi[xH][xL][yH][yL][k][i][j - 1]) /
+                                                            ((j)*epsilon + mufH);
+                                                    }
+                                                    else if (k == 0 && i >= 1 && i <= NM && j == 0) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = (lamH * pi[xH - 1][xL][yH][yL][k][i][j] +
+                                                            lamL * pi[xH][xL - 1][yH][yL][k][i][j] +
+                                                            (j + 1) * epsilon * pi[xH][xL][yH][yL][k][i][j + 1] +
+                                                            (N - k - (i - 1) - j) * r * (1.0 - p) * pi[xH][xL][yH][yL][k][i - 1][j]) /
+                                                            ((N - k - i - j) * theta + (N - k - i - j) * r * (1.0 - p) + (N - k - i - j) * r * p);
+                                                    }
+                                                    else if (k == 0 && i >= 1 && i <= NM && j == NM - i + 1) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = (lamH * pi[xH - 1][xL][yH][yL][k][i][j] +
+                                                            lamL * pi[xH][xL - 1][yH][yL][k][i][j] +
+                                                            (N - k - i - (j - 1)) * theta * pi[xH][xL][yH][yL][k][i][j - 1] +
+                                                            (N - k - (i - 1) - j) * r * (1.0 - p) * pi[xH][xL][yH][yL][k][i - 1][j]) /
+                                                            ((j)*epsilon + mufH);
+                                                    }
+                                                    else if (k == 0 && i >= 1 && i <= NM - 1 && j >= 1 && j <= NM - i) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = (lamH * pi[xH - 1][xL][yH][yL][k][i][j] +
+                                                            lamL * pi[xH][xL - 1][yH][yL][k][i][j] +
+                                                            (j + 1) * epsilon * pi[xH][xL][yH][yL][k][i][j + 1] +
+                                                            (N - k - i - (j - 1)) * theta * pi[xH][xL][yH][yL][k][i][j - 1] +
+                                                            (N - k - (i - 1) - j) * r * (1.0 - p) * pi[xH][xL][yH][yL][k][i - 1][j]) /
+                                                            ((j)*epsilon + (N - k - i - j) * theta + (N - k - i - j) * r * (1.0 - p) + (N - k - i - j) * r * p);
+                                                    }
+                                                    else if (k == 0 && i == NM + 1 && j == 0) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = (lamH * pi[xH - 1][xL][yH][yL][k][i][j] +
+                                                            lamL * pi[xH][xL - 1][yH][yL][k][i][j] +
+                                                            (N - k - (i - 1) - j) * r * (1.0 - p) * pi[xH][xL][yH][yL][k][i - 1][j]) /
+                                                            (mufH);
+                                                    }
+                                                    // k = 1 ~ 2NM
+                                                    else if (k >= 1 && k <= 2 * NM && i == 0 && j == 0) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = (lamH * pi[xH - 1][xL][yH][yL][k][i][j] +
+                                                            lamL * pi[xH][xL - 1][yH][yL][k][i][j] +
+                                                            (j + 1) * epsilon * pi[xH][xL][yH][yL][k][i][j + 1] +
+                                                            (N - (k - 1) - i - j) * r * p * pi[xH][xL][yH][yL][k - 1][i][j]) /
+                                                            ((N - k - i - j) * theta + (N - k - i - j) * r * (1.0 - p) + (N - k - i - j) * r * p);
+                                                    }
+                                                    else if (k >= 1 && k <= 2 * NM && i == 0 && j >= 1 && j <= NM) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = (lamH * pi[xH - 1][xL][yH][yL][k][i][j] +
+                                                            lamL * pi[xH][xL - 1][yH][yL][k][i][j] +
+                                                            (j + 1) * epsilon * pi[xH][xL][yH][yL][k][i][j + 1] +
+                                                            (N - k - i - (j - 1)) * theta * pi[xH][xL][yH][yL][k][i][j - 1] +
+                                                            (N - (k - 1) - i - j) * r * p * pi[xH][xL][yH][yL][k - 1][i][j]) /
+                                                            ((j)*epsilon + (N - k - i - j) * theta + (N - k - i - j) * r * (1.0 - p) + (N - k - i - j) * r * p);
+                                                    }
+                                                    else if (k >= 1 && k <= 2 * NM && i == 0 && j == NM + 1) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = (lamH * pi[xH - 1][xL][yH][yL][k][i][j] +
+                                                            lamL * pi[xH][xL - 1][yH][yL][k][i][j] +
+                                                            (N - k - i - (j - 1)) * theta * pi[xH][xL][yH][yL][k][i][j - 1]) /
+                                                            ((j)*epsilon + mufH);
+                                                    }
+                                                    else if (k >= 1 && k <= 2 * NM && i >= 1 && i <= NM && j == 0) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = (lamH * pi[xH - 1][xL][yH][yL][k][i][j] +
+                                                            lamL * pi[xH][xL - 1][yH][yL][k][i][j] +
+                                                            (j + 1) * epsilon * pi[xH][xL][yH][yL][k][i][j + 1] +
+                                                            (N - k - (i - 1) - j) * r * (1.0 - p) * pi[xH][xL][yH][yL][k][i - 1][j] +
+                                                            (N - (k - 1) - i - j) * r * p * pi[xH][xL][yH][yL][k - 1][i][j]) /
+                                                            ((N - k - i - j) * theta + (N - k - i - j) * r * (1.0 - p) + (N - k - i - j) * r * p);
+                                                    }
+                                                    else if (k >= 1 && k <= 2 * NM && i >= 1 && i <= NM && j == NM - i + 1) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = (lamH * pi[xH - 1][xL][yH][yL][k][i][j] +
+                                                            lamL * pi[xH][xL - 1][yH][yL][k][i][j] +
+                                                            (N - k - i - (j - 1)) * theta * pi[xH][xL][yH][yL][k][i][j - 1] +
+                                                            (N - k - (i - 1) - j) * r * (1.0 - p) * pi[xH][xL][yH][yL][k][i - 1][j]) /
+                                                            ((j)*epsilon + mufH);
+                                                    }
+                                                    else if (k >= 1 && k <= 2 * NM && i >= 1 && i <= NM - 1 && j >= 1 && j <= NM - i) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = (lamH * pi[xH - 1][xL][yH][yL][k][i][j] +
+                                                            lamL * pi[xH][xL - 1][yH][yL][k][i][j] +
+                                                            (j + 1) * epsilon * pi[xH][xL][yH][yL][k][i][j + 1] +
+                                                            (N - k - i - (j - 1)) * theta * pi[xH][xL][yH][yL][k][i][j - 1] +
+                                                            (N - k - (i - 1) - j) * r * (1.0 - p) * pi[xH][xL][yH][yL][k][i - 1][j] +
+                                                            (N - (k - 1) - i - j) * r * p * pi[xH][xL][yH][yL][k - 1][i][j]) /
+                                                            ((j)*epsilon + (N - k - i - j) * theta + (N - k - i - j) * r * (1.0 - p) + (N - k - i - j) * r * p);
+                                                    }
+                                                    else if (k >= 1 && k <= 2 * NM && i == NM + 1 && j == 0) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = (lamH * pi[xH - 1][xL][yH][yL][k][i][j] +
+                                                            lamL * pi[xH][xL - 1][yH][yL][k][i][j] +
+                                                            (N - k - (i - 1) - j) * r * (1.0 - p) * pi[xH][xL][yH][yL][k][i - 1][j]) /
+                                                            (mufH);
+                                                    }
+                                                    // k = MAX_K
+                                                    else if (k == MAX_K && i == 0 && j == 0) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = (lamH * pi[xH - 1][xL][yH][yL][k][i][j] +
+                                                            lamL * pi[xH][xL - 1][yH][yL][k][i][j] +
+                                                            (j + 1) * epsilon * pi[xH][xL][yH][yL][k][i][j + 1] +
+                                                            (N - (k - 1) - i - j) * r * p * pi[xH][xL][yH][yL][k - 1][i][j]) /
+                                                            ((N - k - i - j) * theta + (N - k - i - j) * r * (1.0 - p) + musH);
+                                                    }
+                                                    else if (k == MAX_K && i == 0 && j >= 1 && j <= NM - 1) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = (lamH * pi[xH - 1][xL][yH][yL][k][i][j] +
+                                                            lamL * pi[xH][xL - 1][yH][yL][k][i][j] +
+                                                            (j + 1) * epsilon * pi[xH][xL][yH][yL][k][i][j + 1] +
+                                                            (N - k - i - (j - 1)) * theta * pi[xH][xL][yH][yL][k][i][j - 1] +
+                                                            (N - (k - 1) - i - j) * r * p * pi[xH][xL][yH][yL][k - 1][i][j]) /
+                                                            ((j)*epsilon + (N - k - i - j) * theta + (N - k - i - j) * r * (1.0 - p) + musH);
+                                                    }
+                                                    else if (k == MAX_K && i == 0 && j == NM) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = (lamH * pi[xH - 1][xL][yH][yL][k][i][j] +
+                                                            lamL * pi[xH][xL - 1][yH][yL][k][i][j] +
+                                                            (N - k - i - (j - 1)) * theta * pi[xH][xL][yH][yL][k][i][j - 1] +
+                                                            (N - (k - 1) - i - j) * r * p * pi[xH][xL][yH][yL][k - 1][i][j]) /
+                                                            ((j)*epsilon + musH);
+                                                    }
+                                                    else if (k == MAX_K && i >= 1 && i <= NM - 1 && j == 0) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = (lamH * pi[xH - 1][xL][yH][yL][k][i][j] +
+                                                            lamL * pi[xH][xL - 1][yH][yL][k][i][j] +
+                                                            (j + 1) * epsilon * pi[xH][xL][yH][yL][k][i][j + 1] +
+                                                            (N - k - (i - 1) - j) * r * (1.0 - p) * pi[xH][xL][yH][yL][k][i - 1][j] +
+                                                            (N - (k - 1) - i - j) * r * p * pi[xH][xL][yH][yL][k - 1][i][j]) /
+                                                            ((N - k - i - j) * theta + (N - k - i - j) * r * (1.0 - p) + musH);
+                                                    }
+                                                    else if (k == MAX_K && i >= 1 && i <= NM - 2 && j >= 1 && j <= NM - i - 1) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = (lamH * pi[xH - 1][xL][yH][yL][k][i][j] +
+                                                            lamL * pi[xH][xL - 1][yH][yL][k][i][j] +
+                                                            (j + 1) * epsilon * pi[xH][xL][yH][yL][k][i][j + 1] +
+                                                            (N - k - i - (j - 1)) * theta * pi[xH][xL][yH][yL][k][i][j - 1] +
+                                                            (N - k - (i - 1) - j) * r * (1.0 - p) * pi[xH][xL][yH][yL][k][i - 1][j] +
+                                                            (N - (k - 1) - i - j) * r * p * pi[xH][xL][yH][yL][k - 1][i][j]) /
+                                                            ((j)*epsilon + (N - k - i - j) * theta + (N - k - i - j) * r * (1.0 - p) + musH);
+                                                    }
+                                                    else if (k == MAX_K && i >= 1 && i <= NM - 1 && j == NM - i) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = (lamH * pi[xH - 1][xL][yH][yL][k][i][j] +
+                                                            lamL * pi[xH][xL - 1][yH][yL][k][i][j] +
+                                                            (N - k - i - (j - 1)) * theta * pi[xH][xL][yH][yL][k][i][j - 1] +
+                                                            (N - k - (i - 1) - j) * r * (1.0 - p) * pi[xH][xL][yH][yL][k][i - 1][j] +
+                                                            (N - (k - 1) - i - j) * r * p * pi[xH][xL][yH][yL][k - 1][i][j]) /
+                                                            ((j)*epsilon + musH);
+                                                    }
+                                                    else if (k == MAX_K && i == NM && j == 0) {
+                                                        pi[xH][xL][yH][yL][k][i][j] = (lamH * pi[xH - 1][xL][yH][yL][k][i][j] +
+                                                            lamL * pi[xH][xL - 1][yH][yL][k][i][j] +
+                                                            (N - k - (i - 1) - j) * r * (1.0 - p) * pi[xH][xL][yH][yL][k][i - 1][j] +
+                                                            (N - (k - 1) - i - j) * r * p * pi[xH][xL][yH][yL][k - 1][i][j]) /
+                                                            (musH);
+                                                    }
+                                                    // 37.2 end
                                                 }
                                             }
                                         }
@@ -6168,7 +7008,7 @@ int main() {
         "Pb.L_ana", "Th.L_ana", "Ths.L_ana", "Thf.L_ana", "Rs.L_ana", "Nb.L_ana" };
 
     int pointer = 1;
-    while (pointer <= 12) {
+    while (pointer <= 1) {
         cout << "Starting case " << pointer << endl;
         csv1.print_title(pointer, analytical_columns);
 
@@ -6191,7 +7031,7 @@ int main() {
                 Pb_L,  Th_L,    Ths_L, Thf_L, Rs_L,  Nb_L };
             csv1.print_data(analytical_data);
             cout << endl;
-            // printf("sum1 = %f\n", sum); // 正常要是1.0
+            //printf("sum1 = %f\n", sum); // 正常要是1.0
         }
         pointer++;
     }
